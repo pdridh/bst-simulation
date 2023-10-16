@@ -75,28 +75,28 @@ class Tree {
 
   // Deletes the node with the given data
   // If the node has two children then its replaced with its inorder successor
-  #deleteNode(data, root) {
-    if (root === null) {
-      return root;
+  #deleteNode(data, node) {
+    if (node === null) {
+      return node;
     }
 
-    if (data < root.data) {
-      root.left = this.#deleteNode(data, root.left);
-    } else if (data > root.data) {
-      root.right = this.#deleteNode(data, root.right);
+    if (data < node.data) {
+      node.left = this.#deleteNode(data, node.left);
+    } else if (data > node.data) {
+      node.right = this.#deleteNode(data, node.right);
     } else {
       // This is the node to be deleted
 
       // Leaf node
-      if (root.left === null && root.right === null) {
+      if (node.left === null && node.right === null) {
         return null;
       }
 
       // Single child case
-      if (root.left === null) {
-        return root.right;
-      } else if (root.right == null) {
-        return root.left;
+      if (node.left === null) {
+        return node.right;
+      } else if (node.right == null) {
+        return node.left;
       }
 
       // Two children case
@@ -106,11 +106,11 @@ class Tree {
         successor = successor.left;
       }
       // Replace the target node with the data
-      root.data = successor.data;
+      node.data = successor.data;
       //Recursively delete the copied node (successor)
-      root.right = this.#deleteNode(successor.data, root.right);
+      node.right = this.#deleteNode(successor.data, node.right);
     }
-    return root;
+    return node;
   }
 
   // Wrapper function for the recursive deletion
@@ -118,6 +118,36 @@ class Tree {
     this.root = this.#deleteNode(data, this.root);
   }
 
+  // Level order traverses the tree prioritizing level/breadth
+  // Every node first gets visited and it's children are then enqued
+  // If a callback is provided it is called when the node is visited
+  #levelOrder(callback, queue, arr = []) {
+    if (queue.length === 0) {
+      return;
+    }
+
+    // Visit node and then deque it
+    const node = queue.shift();
+    if (callback) {
+      callback(node);
+    }
+    arr.push(node.data);
+
+    // Enque children nodes (discover) before visiting the next node in the queue
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
+    this.#levelOrder(callback, queue, arr);
+
+    return arr;
+  }
+
+  // Public wrapper for level order traversal
+  // Accepts a callback that is called for each node
+  // Returns an array with values in level order
+  levelOrder(callback) {
+    const queue = [this.root];
+    return this.#levelOrder(callback, queue);
+  }
 }
 
 export default Tree;
