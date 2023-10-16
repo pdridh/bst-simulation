@@ -8,18 +8,15 @@ class Tree {
     }
   }
 
+  // Helper to filter the data
   #filterData(data) {
     const filtered = data.filter((val, ind) => data.indexOf(val) === ind);
     filtered.sort((a, b) => a - b);
     return filtered;
   }
 
-  build(data) {
-    data = this.#filterData(data);
-    this.root = this.buildTree(data);
-  }
-
-  buildTree(data, start = 0, end = data.length - 1) {
+  // Builds a balanced BST and returns the root node
+  #buildTree(data, start = 0, end = data.length - 1) {
     if (start > end) return null;
 
     const mid = Math.floor((start + end) / 2);
@@ -31,6 +28,13 @@ class Tree {
     return root;
   }
 
+  // Sanitizes the given data and builds the tree
+  build(data) {
+    data = this.#filterData(data);
+    this.root = this.#buildTree(data);
+  }
+
+  // Insert a new node with the given data if it doesn't exist
   insert(data, node = this.root) {
     if (node === null) {
       node = new Node(data);
