@@ -50,6 +50,18 @@ class Tree {
     return node;
   }
 
+  //Returns the found node with the given data
+  //Returns null if node with the given data is not found
+  find(data, node = this.root) {
+    if (node === null || data === node.data) {
+      return node;
+    }
+
+    if (data < node.data) {
+      return this.find(data, node.left);
+    }
+    return this.find(data, node.right);
+  }
 }
 
 export default Tree;
