@@ -50,8 +50,8 @@ class Tree {
     return node;
   }
 
-  //Returns the found node with the given data
-  //Returns null if node with the given data is not found
+  // Returns the found node with the given data
+  // Returns null if node with the given data is not found
   find(data, node = this.root) {
     if (node === null || data === node.data) {
       return node;
@@ -62,6 +62,52 @@ class Tree {
     }
     return this.find(data, node.right);
   }
+
+  // Deletes the node with the given data
+  // If the node has two children then its replaced with its inorder successor
+  #deleteNode(data, root = this.root) {
+    if (root === null) {
+      return root;
+    }
+
+    if (data < root.data) {
+      root.left = this.#deleteNode(data, root.left);
+    } else if (data > root.data) {
+      root.right = this.#deleteNode(data, root.right);
+    } else {
+      // This is the node to be deleted
+
+      // Leaf node
+      if (root.left === null && root.right === null) {
+        return null;
+      }
+
+      // Single child case
+      if (root.left === null) {
+        return root.right;
+      } else if (root.right == null) {
+        return root.left;
+      }
+
+      // Two children case
+      // Find the inorder successor(smallest value AFTER the target node)
+      let successor = root.right;
+      while (successor.left) {
+        successor = successor.left;
+      }
+      // Replace the target node with the data
+      root.data = successor.data;
+      //Recursively delete the copied node (successor)
+      root.right = this.#deleteNode(successor.data, root.right);
+    }
+    return root;
+  }
+
+  // Wrapper function for the recursive deleteNode
+  delete(data) {
+    this.root = this.#deleteNode(data, this.root);
+  }
+
 }
 
 export default Tree;
