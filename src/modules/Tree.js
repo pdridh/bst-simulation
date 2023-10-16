@@ -212,6 +212,17 @@ class Tree {
   postOrder(callback) {
     return this.#postOrder(callback, this.root);
   }
+  // Returns the height of the node i.e the number of edges from the given node to an accessible leaf node
+  // Returns the height of the tree by default
+  height(node = this.root) {
+    if (node == null) return -1; // Offset the "null node"
+
+    let left = this.height(node.left);
+    let right = this.height(node.right);
+
+    return Math.max(left, right) + 1;
+  }
+
 }
 
 export default Tree;
