@@ -128,9 +128,7 @@ class Tree {
 
     // Visit node and then deque it
     const node = queue.shift();
-    if (callback) {
-      callback(node);
-    }
+    if (callback) callback(node);
     arr.push(node.data);
 
     // Enque children nodes (discover) before visiting the next node in the queue
@@ -147,6 +145,72 @@ class Tree {
   levelOrder(callback) {
     const queue = [this.root];
     return this.#levelOrder(callback, queue);
+  }
+
+  // Traverses the tree in order
+  // Visits node in Left-Root-Right pattern
+  #inOrder(callback, node, arr = []) {
+    if (node == null) {
+      return;
+    }
+
+    this.#inOrder(callback, node.left, arr);
+    if (callback) callback(node);
+    arr.push(node.data);
+    this.#inOrder(callback, node.right, arr);
+
+    return arr;
+  }
+
+  // Wrapper for recursive inOrder()
+  // Accepts a callback that is called for each node visited in order
+  // Returns an array with values in order
+  inOrder(callback) {
+    return this.#inOrder(callback, this.root);
+  }
+
+  // Traverses the tree in pre-order
+  // Visits node in Root-Left-Right pattern
+  #preOrder(callback, node, arr = []) {
+    if (node == null) {
+      return arr;
+    }
+
+    if (callback) callback(node);
+    arr.push(node.data);
+    arr = this.#preOrder(callback, node.left, arr);
+    arr = this.#preOrder(callback, node.right, arr);
+
+    return arr;
+  }
+
+  // Wrapper for recursive preOrder()
+  // Accepts a callback that is called for each node visited in pre-order
+  // Returns an array with values in pre-order
+  preOrder(callback) {
+    return this.#preOrder(callback, this.root);
+  }
+
+  // Traverses the tree in post-order
+  // Visits node in Left-Right-Root pattern
+  #postOrder(callback, node, arr = []) {
+    if (node == null) {
+      return arr;
+    }
+
+    arr = this.#postOrder(callback, node.left, arr);
+    arr = this.#postOrder(callback, node.right, arr);
+    if (callback) callback(node);
+    arr.push(node.data);
+
+    return arr;
+  }
+
+  // Wrapper for recursive postOrder()
+  // Accepts a callback that is called for each node visited in post-order
+  // Returns an array with values in post-order
+  postOrder(callback) {
+    return this.#postOrder(callback, this.root);
   }
 }
 
