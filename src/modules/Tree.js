@@ -22,8 +22,8 @@ class Tree {
     const mid = Math.floor((start + end) / 2);
     const root = new Node(data[mid]);
 
-    root.left = this.buildTree(data, start, mid - 1);
-    root.right = this.buildTree(data, mid + 1, end);
+    root.left = this.#buildTree(data, start, mid - 1);
+    root.right = this.#buildTree(data, mid + 1, end);
 
     return root;
   }
