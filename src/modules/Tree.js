@@ -35,24 +35,29 @@ class Tree {
   }
 
   // Insert a new node with the given data if it doesn't exist
-  insert(data, node = this.root) {
+  #insertNode(data, node) {
     if (node === null) {
       node = new Node(data);
       return node;
     }
 
     if (data < node.data) {
-      node.left = this.insert(data, node.left);
+      node.left = this.#insertNode(data, node.left);
     } else {
-      node.right = this.insert(data, node.right);
+      node.right = this.#insertNode(data, node.right);
     }
 
     return node;
   }
 
+  // Wrapper for recursive insertion
+  insert(data) {
+    this.#insertNode(data, this.root);
+  }
+
   // Returns the found node with the given data
   // Returns null if node with the given data is not found
-  find(data, node = this.root) {
+  #findNode(data, node) {
     if (node === null || data === node.data) {
       return node;
     }
@@ -63,9 +68,14 @@ class Tree {
     return this.find(data, node.right);
   }
 
+  // Wrapper for recursive find
+  find(data) {
+    return this.#findNode(data, this.root);
+  }
+
   // Deletes the node with the given data
   // If the node has two children then its replaced with its inorder successor
-  #deleteNode(data, root = this.root) {
+  #deleteNode(data, root) {
     if (root === null) {
       return root;
     }
@@ -103,7 +113,7 @@ class Tree {
     return root;
   }
 
-  // Wrapper function for the recursive deleteNode
+  // Wrapper function for the recursive deletion
   delete(data) {
     this.root = this.#deleteNode(data, this.root);
   }
