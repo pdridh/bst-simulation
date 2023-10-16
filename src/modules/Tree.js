@@ -30,6 +30,22 @@ class Tree {
 
     return root;
   }
+
+  insert(data, node = this.root) {
+    if (node === null) {
+      node = new Node(data);
+      return node;
+    }
+
+    if (data < node.data) {
+      node.left = this.insert(data, node.left);
+    } else {
+      node.right = this.insert(data, node.right);
+    }
+
+    return node;
+  }
+
 }
 
 export default Tree;
