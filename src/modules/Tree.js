@@ -212,6 +212,7 @@ class Tree {
   postOrder(callback) {
     return this.#postOrder(callback, this.root);
   }
+
   // Returns the height of the node i.e the number of edges from the given node to an accessible leaf node
   // Returns the height of the tree by default
   height(node = this.root) {
@@ -221,6 +222,33 @@ class Tree {
     let right = this.height(node.right);
 
     return Math.max(left, right) + 1;
+  }
+
+  // Returns the depth of the node i.e the distance from the root of the tree to that particular node.
+  // Returns -1 if the data is not found
+  #depth(target = this.root.data, traverseNode = this.root, depth = 0) {
+    if (traverseNode == null) {
+      return -1;
+    }
+
+    if (traverseNode.data === target) {
+      return depth;
+    }
+
+    const left = this.#depth(target, traverseNode.left, depth + 1);
+    const right = this.#depth(target, traverseNode.right, depth + 1);
+
+    return Math.max(left, right);
+  }
+
+  // Public wrapper function for the recursive depth function
+  // Accepts either the node or data as input
+  // Returns -1 if node/data is not found
+  depth(targetNode) {
+    if (targetNode instanceof Node) {
+      return this.#depth(targetNode.data);
+    }
+    return this.#depth(targetNode);
   }
 
 }
