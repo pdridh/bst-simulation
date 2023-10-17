@@ -43,7 +43,7 @@ class Tree {
 
     if (data < node.data) {
       node.left = this.#insertNode(data, node.left);
-    } else {
+    } else if (data > node.data) {
       node.right = this.#insertNode(data, node.right);
     }
 
