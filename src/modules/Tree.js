@@ -63,9 +63,9 @@ class Tree {
     }
 
     if (data < node.data) {
-      return this.find(data, node.left);
+      return this.#findNode(data, node.left);
     }
-    return this.find(data, node.right);
+    return this.#findNode(data, node.right);
   }
 
   // Wrapper for recursive find
