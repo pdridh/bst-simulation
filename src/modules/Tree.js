@@ -251,6 +251,17 @@ class Tree {
     return this.#depth(targetNode);
   }
 
+  // A balanced tree is one where the difference between heights of left subtree and right subtree of every node is not more than 1
+  // balanced() compares the height of the left subtree and right subtree and determines whether the tree is balanced
+  balanced() {
+    const leftHeight = this.height(this.root.left);
+    const rightHeight = this.height(this.root.right);
+
+    const diff = Math.abs(leftHeight - rightHeight);
+
+    return !(diff > 1);
+  }
+
 }
 
 export default Tree;
