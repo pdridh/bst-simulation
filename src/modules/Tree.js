@@ -262,6 +262,11 @@ class Tree {
     return !(diff > 1);
   }
 
+  // Traverses the current tree in order and then replaces the tree with a new balanced
+  rebalance() {
+    const arr = this.inOrder();
+    this.root = this.#buildTree(arr);
+  }
 }
 
 export default Tree;
