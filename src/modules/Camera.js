@@ -1,4 +1,5 @@
 import EventHandler from "./EventHandler";
+import Settings from "./Settings";
 import { clamp } from "./utils";
 
 // Handles the translation of the context according to the given settings
@@ -45,6 +46,8 @@ class Camera {
     );
   }
 
+  // Moves the target for the camera by 1 % of the world's width and height
+  // Limits the target position based on the world and the canvas
   update() {
     if (EventHandler.isKeyPressed("ArrowRight")) {
       this.targetX += this.speedX;
@@ -77,6 +80,15 @@ class Camera {
     this.calibrate();
   }
 
+  // Translates the context to the calibrated position
+  move(ctx) {
+    ctx.translate(-this.x, -this.y);
+  }
+
+  // Resets the transformation matrix of the context
+  reset(ctx) {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+  }
 }
 
 export default Camera;
