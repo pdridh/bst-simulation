@@ -45,11 +45,53 @@ class Tree {
     assignPosition(this.root, 0);
   }
 
+  getLeftMost(node) {
+    if (node.left === null) {
+      return node;
+    }
+
+    return this.getLeftMost(node.left);
+  }
+  getRightMost(node) {
+    if (node.right === null) {
+      return node;
+    }
+
+    return this.getRightMost(node.right);
+  }
+
+  updateBoundingBox() {
+    this.boundingBox = {};
+
+    const leftMost = this.getLeftMost(this.root);
+    const rightMost = this.getRightMost(this.root);
+    const top = this.root;
+    let bottom;
+    this.inOrder((node) => {
+      if (this.depth(node) === this.height()) {
+        bottom = node;
+      }
+    });
+
+    this.boundingBox.x = leftMost.x - Settings.constants.NODE_RADIUS;
+    this.boundingBox.y = top.y - Settings.constants.NODE_RADIUS;
+    this.boundingBox.w = rightMost.x + Settings.constants.NODE_RADIUS;
+    this.boundingBox.h = bottom.y + Settings.constants.NODE_RADIUS;
+    this.boundingBox.area =
+      (this.boundingBox.w - this.boundingBox.x) *
+      (this.boundingBox.h - this.boundingBox.y);
+  }
+
+  updateTreeSettings() {
+    this.assignNodePositions();
+    this.updateBoundingBox();
+  }
 
   // Sanitizes the given data and builds the tree
   build(data) {
     data = this.#filterData(data);
     this.root = this.#buildTree(data);
+    this.updateTreeSettings();
   }
 
   // Insert a new node with the given data if it doesn't exist
