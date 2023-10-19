@@ -1,4 +1,5 @@
 import Node from "./Node";
+import Settings from "./Settings";
 
 class Tree {
   constructor(data) {
@@ -27,6 +28,23 @@ class Tree {
 
     return root;
   }
+
+  assignNodePositions() {
+    let x = 0;
+
+    function assignPosition(node, depth) {
+      if (node === null) {
+        return;
+      }
+      assignPosition(node.left, depth + 1);
+      node.x = x++ * Settings.constants.SCALE_X;
+      node.y = depth * Settings.constants.SCALE_Y;
+      assignPosition(node.right, depth + 1);
+    }
+
+    assignPosition(this.root, 0);
+  }
+
 
   // Sanitizes the given data and builds the tree
   build(data) {
