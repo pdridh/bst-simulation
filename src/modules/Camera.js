@@ -21,10 +21,12 @@ class Camera {
     this.worldBounds = worldBounds;
     this.canvas = canvas;
     this.on =
-      this.worldBounds.minX < 0 ||
-      this.worldBounds.maxX > this.canvas.width ||
-      this.worldBounds.minY < 0 ||
-      this.worldBounds.maxY > this.canvas.width;
+      this.worldBounds.minX < -Settings.constants.WORLD_PADDING ||
+      this.worldBounds.maxX >
+        this.canvas.width + Settings.constants.WORLD_PADDING ||
+      this.worldBounds.minY < -Settings.constants.WORLD_PADDING ||
+      this.worldBounds.maxY >
+        this.canvas.width + Settings.constants.WORLD_PADDING;
     this.speedX = (1 / 100) * worldBounds.maxX;
     this.speedY = (1 / 100) * worldBounds.maxY;
   }
