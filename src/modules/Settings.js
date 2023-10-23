@@ -6,6 +6,14 @@ const Settings = (() => {
   // Radius for drawing nodes
   const NODE_RADIUS = 25;
 
+  // Colors for drawing nodes
+  const BORDER_COLOR = "white";
+  const NODE_COLOR = "green";
+  const DATA_COLOR = "white";
+
+  // Font for data
+  const DATA_FONT = "12px Arial";
+
   // The factor by which the node positions are scaled
   const SCALE_X = 30;
   const SCALE_Y = 100;
@@ -37,6 +45,10 @@ const Settings = (() => {
       MAX_RADIAN,
       WORLD_PADDING,
       FPS,
+      BORDER_COLOR,
+      NODE_COLOR,
+      DATA_COLOR,
+      DATA_FONT,
     },
   };
 })();
