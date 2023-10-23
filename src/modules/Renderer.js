@@ -56,6 +56,39 @@ class Renderer {
 
     this.camera.updateSettings(this.worldBounds, this.canvas);
   }
+
+  // Render a node using its x and y positions
+  // Also render its edge to connect to its parent
+  renderNode(data, x, y, parentX, parentY) {
+    // Draw circle
+    this.ctx.fillStyle = Settings.constants.NODE_COLOR;
+    this.ctx.beginPath();
+    this.ctx.arc(
+      x,
+      y,
+      Settings.constants.NODE_RADIUS,
+      0,
+      Settings.constants.MAX_RADIAN
+    );
+
+    // Border
+    this.ctx.fill();
+    this.ctx.lineWidth = 2.5;
+    this.ctx.strokeStyle = Settings.constants.BORDER_COLOR;
+    this.ctx.stroke();
+
+    // Node data
+    this.ctx.font = Settings.constants.DATA_FONT;
+    this.ctx.fillStyle = Settings.constants.DATA_COLOR;
+    this.ctx.textAlign = "center";
+    this.ctx.fillText(data, x, y + Settings.constants.TEXT_OFFSET);
+
+    // Edges
+    this.ctx.beginPath();
+    this.ctx.moveTo(parentX, parentY + Settings.constants.NODE_RADIUS);
+    this.ctx.lineTo(x, y - Settings.constants.NODE_RADIUS);
+    this.ctx.stroke();
+  }
 }
 
 export default Renderer;
