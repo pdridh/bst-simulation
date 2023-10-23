@@ -14,9 +14,6 @@ class Camera {
 
     this.updateSettings(worldBounds, canvas);
     this.calibrate();
-
-    // Start listening for events for movement
-    EventHandler.listen();
   }
 
   // Updates the camera settings based on the given world and canvas
