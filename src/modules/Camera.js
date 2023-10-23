@@ -9,6 +9,11 @@ class Camera {
     this.targetX = canvas.width / 2;
     this.targetY = canvas.height / 2;
 
+    // To track if camera has moved
+    this.lastTargetX = this.targetX;
+    this.lastTargetY = this.targetY;
+    this.hasMoved = false;
+
     // Flag to track if the camera should be used
     this.on = false;
 
@@ -75,6 +80,11 @@ class Camera {
     } else if (this.targetY + this.canvas.height / 2 > this.worldBounds.maxY) {
       this.targetY = this.worldBounds.maxY - this.canvas.height / 2;
     }
+
+    this.hasMoved =
+      this.targetX != this.lastTargetX || this.targetY != this.lastTargetY;
+    this.lastTargetX = this.targetX;
+    this.lastTargetY = this.targetY;
 
     this.calibrate();
   }
