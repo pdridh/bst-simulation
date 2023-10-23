@@ -121,6 +121,9 @@ class Tree {
 
   // Wrapper for recursive insertion
   insert(data) {
+    if (this.root === null) {
+      this.build([data]);
+    }
     this.#insertNode(data, this.root);
   }
 
