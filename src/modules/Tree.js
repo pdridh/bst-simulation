@@ -32,6 +32,7 @@ class Tree {
     return root;
   }
 
+  // Assign a position to each node in in-order to avoid overlaps
   assignNodePositions() {
     let x = 0;
 
@@ -48,6 +49,7 @@ class Tree {
     assignPosition(this.root, 0);
   }
 
+  // Get the left most node of the tree
   getLeftMost(node) {
     if (node.left === null) {
       return node;
@@ -55,6 +57,8 @@ class Tree {
 
     return this.getLeftMost(node.left);
   }
+
+  // Get the right most node of the tree
   getRightMost(node) {
     if (node.right === null) {
       return node;
@@ -63,6 +67,7 @@ class Tree {
     return this.getRightMost(node.right);
   }
 
+  // Update the bounding box of the tree for calculating bounds
   updateBoundingBox() {
     const leftMost = this.getLeftMost(this.root);
     const rightMost = this.getRightMost(this.root);
@@ -83,6 +88,7 @@ class Tree {
       (this.boundingBox.h - this.boundingBox.y);
   }
 
+  // Update all tree settings
   updateTreeSettings() {
     this.assignNodePositions();
     this.updateBoundingBox();
@@ -117,6 +123,7 @@ class Tree {
       this.build([data]);
     }
     this.#insertNode(data, this.root);
+    this.updateTreeSettings();
   }
 
   // Returns the found node with the given data
@@ -180,6 +187,7 @@ class Tree {
   // Wrapper function for the recursive deletion
   delete(data) {
     this.root = this.#deleteNode(data, this.root);
+    this.updateTreeSettings();
   }
 
   // Level order traverses the tree prioritizing level/breadth
@@ -330,6 +338,7 @@ class Tree {
   rebalance() {
     const arr = this.inOrder();
     this.root = this.#buildTree(arr);
+    this.updateTreeSettings();
   }
 }
 
