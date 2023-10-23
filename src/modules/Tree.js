@@ -90,6 +90,9 @@ class Tree {
 
   // Update all tree settings
   updateTreeSettings() {
+    if (this.root === null) {
+      return;
+    }
     this.assignNodePositions();
     this.updateBoundingBox();
   }
