@@ -27,6 +27,35 @@ class Renderer {
     this.then = Date.now();
     this.elapsed = null;
   }
+  // Calculate the constraints for the Camera based on the current tree boundingBox
+  updateWorldBounds() {
+    if (this.tree.root === null) {
+      return;
+    }
+
+    const bbox = this.tree.boundingBox;
+
+    this.worldBounds.minX = Math.min(
+      0,
+      bbox.x + this.canvas.width / 2 - this.tree.root.x
+    );
+
+    this.worldBounds.maxX = Math.max(
+      this.canvas.width,
+      bbox.w + this.canvas.width / 2 - this.tree.root.x
+    );
+    this.worldBounds.minY = 0;
+    this.worldBounds.maxY = Math.max(
+      this.canvas.height,
+      bbox.h + this.canvas.height / 2
+    );
+
+    this.worldBounds.minX -= Settings.constants.WORLD_PADDING;
+    this.worldBounds.maxX += Settings.constants.WORLD_PADDING;
+    this.worldBounds.maxY += Settings.constants.WORLD_PADDING;
+
+    this.camera.updateSettings(this.worldBounds, this.canvas);
+  }
 }
 
 export default Renderer;
