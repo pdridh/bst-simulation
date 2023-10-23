@@ -1,0 +1,66 @@
+import Tree from "./Tree";
+import Renderer from "./Renderer";
+import EventHandler from "./EventHandler";
+
+// IIFE module that acts as a driver for all the rendering and updating of the tree
+const App = (() => {
+  let tree = null;
+  let renderer = null;
+
+  // Creates a new tree and and a new renderer for that tree
+  // Then starts listening to inputs
+  function init() {
+    tree = new Tree();
+    renderer = new Renderer(tree);
+    EventHandler.listen();
+  }
+
+  // Start keeps looping and updating the camera and rendering if anything has changed
+  function start() {
+    renderer.camera.update();
+
+    // If pressing movement key and the camera has moved
+    if (
+      (EventHandler.isKeyPressed("ArrowRight") ||
+        EventHandler.isKeyPressed("ArrowLeft") ||
+        EventHandler.isKeyPressed("ArrowUp") ||
+        EventHandler.isKeyPressed("ArrowDown")) &&
+      renderer.camera.hasMoved
+    ) {
+      renderer.updated = true;
+      renderer.render();
+    }
+
+    requestAnimationFrame(start);
+  }
+
+  // Updates the renderer settings and sets drawing flag to true
+  // By which the renderer then renders
+  function rerender() {
+    renderer.updateWorldBounds();
+    renderer.updated = true;
+    renderer.render();
+  }
+
+  // Inserts a number in the tree and updates the screen
+  function insertNumber(num) {
+    tree.insert(num);
+    rerender();
+  }
+
+  // Deletes a number in the tree and updates the screen
+  function deleteNumber(num) {
+    tree.delete(num);
+    rerender();
+  }
+
+  // Builds a new tree using the given data and updates the screen
+  function buildTree(data) {
+    tree.build(data);
+    rerender();
+  }
+
+  return { init, start, buildTree, insertNumber, deleteNumber };
+})();
+
+export default App;
