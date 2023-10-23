@@ -89,6 +89,23 @@ class Renderer {
     this.ctx.lineTo(x, y - Settings.constants.NODE_RADIUS);
     this.ctx.stroke();
   }
+  // Recursively renders the whole tree
+  renderTree(
+    node = this.tree.root,
+    parentX = node.x + this.canvas.width / 2 - this.tree.root.x,
+    parentY = -Settings.constants.NODE_RADIUS
+  ) {
+    if (!node) return;
+
+    // Calculate x and y position for rendering nodes
+    const x = node.x + this.canvas.width / 2 - this.tree.root.x;
+    const y = node.y + Settings.constants.OFFSET_Y;
+    this.renderNode(node.data, x, y, parentX, parentY);
+
+    if (node.left) this.renderTree(node.left, x, y);
+    if (node.right) this.renderTree(node.right, x, y);
+  }
+
 }
 
 export default Renderer;
