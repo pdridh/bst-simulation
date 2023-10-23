@@ -4,6 +4,11 @@ import Settings from "./Settings";
 class Tree {
   constructor(data) {
     this.root = null;
+
+    // for drawing
+    this.boundingBox = { x: 0, y: 0, w: 0, h: 0 };
+    this.x = 0;
+    this.y = 0;
     if (data) {
       this.build(data);
     }
@@ -61,8 +66,6 @@ class Tree {
   }
 
   updateBoundingBox() {
-    this.boundingBox = {};
-
     const leftMost = this.getLeftMost(this.root);
     const rightMost = this.getRightMost(this.root);
     const top = this.root;
@@ -82,7 +85,13 @@ class Tree {
       (this.boundingBox.h - this.boundingBox.y);
   }
 
+  updatePosition() {
+    this.x = this.root.x;
+    this.y = this.root.y;
+  }
+
   updateTreeSettings() {
+    this.updatePosition();
     this.assignNodePositions();
     this.updateBoundingBox();
   }
