@@ -169,13 +169,13 @@ class Tree {
       // Single child case
       if (node.left === null) {
         return node.right;
-      } else if (node.right == null) {
+      } else if (node.right === null) {
         return node.left;
       }
 
       // Two children case
       // Find the inorder successor(smallest value AFTER the target node)
-      let successor = root.right;
+      let successor = this.root.right;
       while (successor.left) {
         successor = successor.left;
       }
@@ -225,7 +225,7 @@ class Tree {
   // Traverses the tree in order
   // Visits node in Left-Root-Right pattern
   #inOrder(callback, node, arr = []) {
-    if (node == null) {
+    if (node === null) {
       return;
     }
 
@@ -247,7 +247,7 @@ class Tree {
   // Traverses the tree in pre-order
   // Visits node in Root-Left-Right pattern
   #preOrder(callback, node, arr = []) {
-    if (node == null) {
+    if (node === null) {
       return arr;
     }
 
@@ -291,7 +291,7 @@ class Tree {
   // Returns the height of the node i.e the number of edges from the given node to an accessible leaf node
   // Returns the height of the tree by default
   height(node = this.root) {
-    if (node == null) return -1; // Offset the "null node"
+    if (node === null) return -1; // Offset the "null node"
 
     let left = this.height(node.left);
     let right = this.height(node.right);
@@ -302,7 +302,7 @@ class Tree {
   // Returns the depth of the node i.e the distance from the root of the tree to that particular node.
   // Returns -1 if the data is not found
   #depth(target = this.root.data, traverseNode = this.root, depth = 0) {
-    if (traverseNode == null) {
+    if (traverseNode === null) {
       return -1;
     }
 
@@ -339,6 +339,10 @@ class Tree {
 
   // Traverses the current tree in order and then replaces the tree with a new balanced
   rebalance() {
+    if (this.root === null) {
+      return;
+    }
+
     const arr = this.inOrder();
     this.root = this.#buildTree(arr);
     this.updateTreeSettings();
