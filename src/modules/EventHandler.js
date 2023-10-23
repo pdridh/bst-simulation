@@ -1,6 +1,13 @@
+import App from "./App";
+
 // Listens for inputs and then registers them
 const EventHandler = (() => {
   let pressedKeys = [];
+  const insertBtn = document.querySelector(".insert-btn");
+  const insertInput = document.querySelector("#insert-input");
+
+  const deleteBtn = document.querySelector(".delete-btn");
+  const deleteInput = document.querySelector("#delete-input");
 
   // Registers the pressed key if it hasnt been registered
   function registerKeyDown(e) {
@@ -12,10 +19,26 @@ const EventHandler = (() => {
     pressedKeys = pressedKeys.filter((key) => key !== e.key);
   }
 
+  function handleInsertBtn(e) {
+    const number = Number(insertInput.value);
+    insertInput.value = "";
+
+    App.insertNumber(number);
+  }
+
+  function handleDeleteBtn(e) {
+    const number = Number(deleteInput.value);
+    deleteInput.value = "";
+
+    App.deleteNumber(number);
+  }
+
   // Start listening to keydown and keyup events
   function listen() {
     window.addEventListener("keydown", registerKeyDown);
     window.addEventListener("keyup", registerKeyUp);
+    insertBtn.addEventListener("click", handleInsertBtn);
+    deleteBtn.addEventListener("click", handleDeleteBtn);
   }
 
   // Returns true if the given key is pressed
