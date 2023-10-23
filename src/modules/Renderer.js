@@ -110,6 +110,8 @@ class Renderer {
 
   render() {
     if (this.tree.root === null) {
+      // Clear if anything is drawn
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       return;
     }
 
