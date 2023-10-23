@@ -14,7 +14,7 @@ class Renderer {
     this.worldBounds = {};
 
     // For keeping track of the renders
-    this.started = false;
+    this.updated = false;
 
     this.tree = tree;
 
@@ -27,6 +27,7 @@ class Renderer {
     this.then = Date.now();
     this.elapsed = null;
   }
+
   // Calculate the constraints for the Camera based on the current tree boundingBox
   updateWorldBounds() {
     if (this.tree.root === null) {
@@ -89,6 +90,7 @@ class Renderer {
     this.ctx.lineTo(x, y - Settings.constants.NODE_RADIUS);
     this.ctx.stroke();
   }
+
   // Recursively renders the whole tree
   renderTree(
     node = this.tree.root,
@@ -106,6 +108,26 @@ class Renderer {
     if (node.right) this.renderTree(node.right, x, y);
   }
 
+  render() {
+    if (this.tree.root === null) {
+      return;
+    }
+
+    if (!this.updated) {
+      return;
+    }
+
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if (this.camera.on) {
+      this.camera.update();
+      this.camera.move(this.ctx);
+      this.renderTree();
+      this.camera.reset(this.ctx);
+    } else {
+      this.renderTree();
+    }
+    this.updated = false;
+  }
 }
 
 export default Renderer;
