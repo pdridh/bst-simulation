@@ -337,9 +337,14 @@ class Tree {
     return !(diff > 1);
   }
 
+  // Return the number of elements of the tree
+  get length() {
+    return this.inOrder().length;
+  }
+
   // Traverses the current tree in order and then replaces the tree with a new balanced
   rebalance() {
-    if (this.root === null) {
+    if (this.root === null || this.balanced()) {
       return;
     }
 
