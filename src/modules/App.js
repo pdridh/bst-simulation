@@ -60,12 +60,45 @@ const App = (() => {
     rerender();
   }
 
+  // Returns a random number(integer) from 1 to n (inclusive)
+  function getRandom(n) {
+    return Math.floor(Math.random() * n + 1);
+  }
+
+  // Creates a random array of data of n elements and overwrites the current tree
+  function createRandom(n) {
+    const data = [];
+    for (let i = 0; i < n; ++i) {
+      // Create a random number
+      let randNum = getRandom(n * 100);
+
+      // Check if its in data
+      while (data.includes(randNum)) {
+        // Its already in data therefore make a new one
+        randNum = getRandom(n * 100);
+        // Check if this is also in data and repeat
+      }
+
+      // Push the unique random number
+      data.push(randNum);
+    }
+    buildTree(data);
+  }
+
   function balance() {
     tree.rebalance();
     rerender();
   }
 
-  return { init, start, buildTree, insertNumber, deleteNumber, balance };
+  return {
+    init,
+    start,
+    buildTree,
+    insertNumber,
+    deleteNumber,
+    createRandom,
+    balance,
+  };
 })();
 
 export default App;

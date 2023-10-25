@@ -9,6 +9,9 @@ const EventHandler = (() => {
   const deleteBtn = document.querySelector(".delete-btn");
   const deleteInput = document.querySelector("#delete-input");
 
+  const randomBtn = document.querySelector(".random-btn");
+  const randomInput = document.querySelector("#random-input");
+
   const balanceBtn = document.querySelector(".balance-btn");
 
   // Registers the pressed key if it hasnt been registered
@@ -35,6 +38,13 @@ const EventHandler = (() => {
     App.deleteNumber(number);
   }
 
+  function handleRandomBtn(e) {
+    const randN = Number(randomInput.value);
+    randomInput.value = "";
+
+    App.createRandom(randN);
+  }
+
   function handleBalanceBtn(e) {
     App.balance();
   }
@@ -46,6 +56,7 @@ const EventHandler = (() => {
     insertBtn.addEventListener("click", handleInsertBtn);
     deleteBtn.addEventListener("click", handleDeleteBtn);
     balanceBtn.addEventListener("click", handleBalanceBtn);
+    randomBtn.addEventListener("click", handleRandomBtn);
   }
 
   // Returns true if the given key is pressed
