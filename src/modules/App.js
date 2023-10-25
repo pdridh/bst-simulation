@@ -60,7 +60,12 @@ const App = (() => {
     rerender();
   }
 
-  return { init, start, buildTree, insertNumber, deleteNumber };
+  function balance() {
+    tree.rebalance();
+    rerender();
+  }
+
+  return { init, start, buildTree, insertNumber, deleteNumber, balance };
 })();
 
 export default App;

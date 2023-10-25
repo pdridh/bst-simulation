@@ -9,6 +9,8 @@ const EventHandler = (() => {
   const deleteBtn = document.querySelector(".delete-btn");
   const deleteInput = document.querySelector("#delete-input");
 
+  const balanceBtn = document.querySelector(".balance-btn");
+
   // Registers the pressed key if it hasnt been registered
   function registerKeyDown(e) {
     if (pressedKeys.indexOf(e.key) < 0) pressedKeys.push(e.key);
@@ -33,12 +35,17 @@ const EventHandler = (() => {
     App.deleteNumber(number);
   }
 
+  function handleBalanceBtn(e) {
+    App.balance();
+  }
+
   // Start listening to keydown and keyup events
   function listen() {
     window.addEventListener("keydown", registerKeyDown);
     window.addEventListener("keyup", registerKeyUp);
     insertBtn.addEventListener("click", handleInsertBtn);
     deleteBtn.addEventListener("click", handleDeleteBtn);
+    balanceBtn.addEventListener("click", handleBalanceBtn);
   }
 
   // Returns true if the given key is pressed
