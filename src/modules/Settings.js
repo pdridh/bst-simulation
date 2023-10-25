@@ -3,16 +3,19 @@ const Settings = (() => {
   const CANVAS_WIDTH = (90 / 100) * window.innerWidth;
   const CANVAS_HEIGHT = 700;
 
-  // Radius for drawing nodes
+  // Node settings
   const NODE_RADIUS = 25;
-
-  // Colors for drawing nodes
   const BORDER_COLOR = "white";
   const NODE_COLOR = "green";
-  const DATA_COLOR = "white";
 
-  // Font for data
+  // Data settings
+  const DATA_COLOR = "white";
   const DATA_FONT = "12px Arial";
+
+  // Stats settings
+  const STAT_FONT = "15px Arial bold";
+  const STAT_COLOR = "orange";
+  const STAT_X = 50;
 
   // The factor by which the node positions are scaled
   const SCALE_X = 30;
@@ -49,6 +52,9 @@ const Settings = (() => {
       NODE_COLOR,
       DATA_COLOR,
       DATA_FONT,
+      STAT_FONT,
+      STAT_COLOR,
+      STAT_X,
     },
   };
 })();

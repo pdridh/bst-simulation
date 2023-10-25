@@ -108,6 +108,26 @@ class Renderer {
     if (node.right) this.renderTree(node.right, x, y);
   }
 
+  renderStats() {
+    this.ctx.font = Settings.constants.STAT_FONT;
+    this.ctx.fillStyle = Settings.constants.STAT_COLOR;
+    this.ctx.textAlign = "left";
+
+    // N elements
+    this.ctx.fillText(
+      "Number of elements: " + this.tree.length,
+      Settings.constants.STAT_X,
+      Settings.constants.OFFSET_Y
+    );
+
+    // Tree balance status
+    this.ctx.fillText(
+      "Balanced: " + this.tree.balanced(),
+      Settings.constants.STAT_X,
+      Settings.constants.OFFSET_Y + 20
+    );
+  }
+
   render() {
     if (this.tree.root === null) {
       // Clear if anything is drawn
@@ -129,6 +149,7 @@ class Renderer {
       this.renderTree();
     }
     this.updated = false;
+    this.renderStats();
   }
 }
 
