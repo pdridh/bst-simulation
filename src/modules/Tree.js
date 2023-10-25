@@ -175,7 +175,7 @@ class Tree {
 
       // Two children case
       // Find the inorder successor(smallest value AFTER the target node)
-      let successor = this.root.right;
+      let successor = node.right;
       while (successor.left) {
         successor = successor.left;
       }
