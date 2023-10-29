@@ -58,6 +58,12 @@ const App = (() => {
 
   // Deletes a number in the tree and updates the screen
   function deleteNumber(num) {
+    if (tree.find(num) === null) {
+      //Couldnt find the number
+      alert("That number does not exist in the tree!");
+      return;
+    }
+
     tree.delete(num);
     rerender();
   }
