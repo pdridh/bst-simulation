@@ -14,6 +14,7 @@ const App = (() => {
     tree = new Tree();
     renderer = new Renderer(tree);
     EventHandler.listen();
+    rerender();
   }
 
   // Start keeps looping and updating the camera and rendering if anything has changed

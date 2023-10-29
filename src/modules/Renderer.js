@@ -58,6 +58,12 @@ class Renderer {
     this.camera.updateSettings(this.worldBounds, this.canvas);
   }
 
+  clearCanvas() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = Settings.constants.CANVAS_COLOR;
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
   // Render a node using its x and y positions
   // Also render its edge to connect to its parent
   renderNode(data, x, y, parentX, parentY) {
@@ -131,7 +137,7 @@ class Renderer {
   render() {
     if (this.tree.root === null) {
       // Clear if anything is drawn
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.clearCanvas();
       return;
     }
 
@@ -139,7 +145,7 @@ class Renderer {
       return;
     }
 
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.clearCanvas();
     if (this.camera.on) {
       this.camera.update();
       this.camera.move(this.ctx);

@@ -3,9 +3,10 @@ const Settings = (() => {
   const MAX_NODES = 2000;
   const MAX_N = 9999;
 
-  // 90 % of window width
-  const CANVAS_WIDTH = (90 / 100) * window.innerWidth;
+  // Canvas settings
+  const CANVAS_WIDTH = (90 / 100) * window.innerWidth; // 90% of window width
   const CANVAS_HEIGHT = 700;
+  const CANVAS_COLOR = "black";
 
   // Node settings
   const NODE_RADIUS = 22;
@@ -46,6 +47,7 @@ const Settings = (() => {
       MAX_N,
       CANVAS_WIDTH,
       CANVAS_HEIGHT,
+      CANVAS_COLOR,
       NODE_RADIUS,
       SCALE_X,
       SCALE_Y,
