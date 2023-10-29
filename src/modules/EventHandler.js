@@ -67,12 +67,12 @@ const EventHandler = (() => {
     let randN = Number(randomInput.value);
     if (randN > Settings.constants.MAX_NODES) {
       randomInput.value = Settings.constants.MAX_NODES;
-      alert("Max number of nodes is 2000");
+      alert("Max number of nodes is " + Settings.constants.MAX_NODES);
       return;
     }
 
     randomInput.value = "";
-    App.createRandom(randN, 9999);
+    App.insertRandom(randN);
   }
 
   function handleBalanceBtn(e) {
