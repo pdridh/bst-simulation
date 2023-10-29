@@ -1,10 +1,14 @@
 const Settings = (() => {
+  // App settings
+  const MAX_NODES = 2000;
+  const MAX_N = 9999;
+
   // 90 % of window width
   const CANVAS_WIDTH = (90 / 100) * window.innerWidth;
   const CANVAS_HEIGHT = 700;
 
   // Node settings
-  const NODE_RADIUS = 25;
+  const NODE_RADIUS = 22;
   const BORDER_COLOR = "white";
   const NODE_COLOR = "green";
 
@@ -18,8 +22,8 @@ const Settings = (() => {
   const STAT_X = 50;
 
   // The factor by which the node positions are scaled
-  const SCALE_X = 30;
-  const SCALE_Y = 100;
+  const SCALE_X = 28;
+  const SCALE_Y = 70;
 
   // The offset from the top of the canvas
   const OFFSET_Y = 50;
@@ -38,6 +42,8 @@ const Settings = (() => {
 
   return {
     constants: {
+      MAX_NODES,
+      MAX_N,
       CANVAS_WIDTH,
       CANVAS_HEIGHT,
       NODE_RADIUS,
