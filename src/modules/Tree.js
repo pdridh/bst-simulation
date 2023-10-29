@@ -339,6 +339,7 @@ class Tree {
 
   // Return the number of elements of the tree
   get length() {
+    if (!this.inOrder()) return 0;
     return this.inOrder().length;
   }
 
