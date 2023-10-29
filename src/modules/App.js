@@ -1,6 +1,7 @@
 import Tree from "./Tree";
 import Renderer from "./Renderer";
 import EventHandler from "./EventHandler";
+import Settings from "./Settings";
 
 // IIFE module that acts as a driver for all the rendering and updating of the tree
 const App = (() => {
@@ -44,8 +45,14 @@ const App = (() => {
 
   // Inserts a number in the tree and updates the screen
   function insertNumber(num) {
-    tree.insert(num);
-    rerender();
+    if (tree.length < Settings.constants.MAX_NODES) {
+      tree.insert(num);
+      rerender();
+      return;
+    }
+
+    //Cant insert
+    alert("Reached Max number of nodes: " + Settings.constants.MAX_NODES);
   }
 
   // Deletes a number in the tree and updates the screen
@@ -70,12 +77,12 @@ const App = (() => {
     const data = [];
     for (let i = 0; i < n; ++i) {
       // Create a random number
-      let randNum = getRandom(n * 100);
+      let randNum = getRandom(Settings.constants.MAX_N);
 
       // Check if its in data
       while (data.includes(randNum)) {
         // Its already in data therefore make a new one
-        randNum = getRandom(n * 100);
+        randNum = getRandom(Settings.constants.MAX_N);
         // Check if this is also in data and repeat
       }
 
