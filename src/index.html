@@ -5,5 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BST Sim</title>
   </head>
-  <body></body>
+  <body>
+    <div class="canvas-frame">
+      <canvas id="canvas"></canvas>
+    </div>
+    <div class="controls-container">
+      <div class="inputs">
+        <div class="input-container">
+          <input
+            type="text"
+            placeholder="Enter numbers separated by a space: 5 10 2 ..."
+            id="array-input"
+          />
+          <button class="create-btn">Create</button>
+        </div>
+        <div class="input-container">
+          <input
+            type="text"
+            placeholder="Number of elements"
+            id="random-input"
+            maxlength="4"
+          />
+          <button class="btn random-btn">Create Random</button>
+        </div>
+        <div class="input-container">
+          <input
+            type="text"
+            placeholder="Insert number"
+            id="insert-input"
+            maxlength="4"
+          />
+          <button class="btn insert-btn">Insert</button>
+        </div>
+        <div class="input-container">
+          <input type="text" placeholder="Delete number" id="delete-input" />
+          <button class="btn delete-btn">Delete</button>
+        </div>
+      </div>
+      <div class="buttons">
+        <button class="btn balance-btn">balance</button>
+      </div>
+    </div>
+  </body>
 </html>
