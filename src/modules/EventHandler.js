@@ -38,7 +38,7 @@ const EventHandler = (() => {
       .map((input) => {
         return Number(input);
       })
-      .filter((n) => n);
+      .filter((n) => n != NaN);
     arrayInput.value = "";
 
     if (array.length < Settings.constants.MAX_NODES) App.buildTree(array);
@@ -47,7 +47,7 @@ const EventHandler = (() => {
   function handleInsertBtn(e) {
     const number = Number(insertInput.value);
 
-    if (!number) {
+    if (number === NaN) {
       alert("Enter a valid number");
       return;
     }
