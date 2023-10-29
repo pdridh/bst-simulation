@@ -1,8 +1,13 @@
 import App from "./App";
+import Settings from "./Settings";
 
 // Listens for inputs and then registers them
 const EventHandler = (() => {
   let pressedKeys = [];
+
+  const createBtn = document.querySelector(".create-btn");
+  const arrayInput = document.querySelector("#array-input");
+
   const insertBtn = document.querySelector(".insert-btn");
   const insertInput = document.querySelector("#insert-input");
 
@@ -24,10 +29,30 @@ const EventHandler = (() => {
     pressedKeys = pressedKeys.filter((key) => key !== e.key);
   }
 
+  function handleCreateBtn(e) {
+    // Split the string input into array
+    // Convert strings to number
+    // If not convertable then filter it
+    const array = arrayInput.value
+      .split(" ")
+      .map((input) => {
+        return Number(input);
+      })
+      .filter((n) => n);
+    arrayInput.value = "";
+
+    if (array.length < Settings.constants.MAX_NODES) App.buildTree(array);
+  }
+
   function handleInsertBtn(e) {
     const number = Number(insertInput.value);
-    insertInput.value = "";
 
+    if (!number) {
+      alert("Enter a valid number");
+      return;
+    }
+
+    insertInput.value = "";
     App.insertNumber(number);
   }
 
@@ -39,10 +64,15 @@ const EventHandler = (() => {
   }
 
   function handleRandomBtn(e) {
-    const randN = Number(randomInput.value);
-    randomInput.value = "";
+    let randN = Number(randomInput.value);
+    if (randN > Settings.constants.MAX_NODES) {
+      randomInput.value = Settings.constants.MAX_NODES;
+      alert("Max number of nodes is 2000");
+      return;
+    }
 
-    App.createRandom(randN);
+    randomInput.value = "";
+    App.createRandom(randN, 9999);
   }
 
   function handleBalanceBtn(e) {
@@ -57,6 +87,7 @@ const EventHandler = (() => {
     deleteBtn.addEventListener("click", handleDeleteBtn);
     balanceBtn.addEventListener("click", handleBalanceBtn);
     randomBtn.addEventListener("click", handleRandomBtn);
+    createBtn.addEventListener("click", handleCreateBtn);
   }
 
   // Returns true if the given key is pressed
