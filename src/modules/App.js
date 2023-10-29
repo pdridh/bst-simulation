@@ -104,6 +104,11 @@ const App = (() => {
     rerender();
   }
 
+  function clear() {
+    buildTree([]);
+    rerender();
+  }
+
   return {
     init,
     start,
@@ -111,6 +116,7 @@ const App = (() => {
     insertNumber,
     deleteNumber,
     createRandom,
+    clear,
     balance,
   };
 })();
