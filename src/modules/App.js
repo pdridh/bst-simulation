@@ -7,6 +7,7 @@ import { getRandom } from "./utils";
 // IIFE module that acts as a driver for all the rendering and updating of the tree
 const App = (() => {
   let tree = null;
+  let lastTreeState = null;
   let currentTreeState = null;
 
   let renderer = null;
@@ -43,6 +44,10 @@ const App = (() => {
     renderer.updated = true;
     renderer.updateWorldBounds(currentTreeState);
     renderer.render(currentTreeState);
+  }
+
+  function saveTreeState() {
+    lastTreeState = Object.assign({}, tree.state);
   }
 
   }
