@@ -2,6 +2,7 @@ import Tree from "./Tree";
 import Renderer from "./Renderer";
 import EventHandler from "./EventHandler";
 import Settings from "./Settings";
+import { getRandom } from "./utils";
 
 // IIFE module that acts as a driver for all the rendering and updating of the tree
 const App = (() => {
@@ -72,11 +73,6 @@ const App = (() => {
   function buildTree(data) {
     tree.build(data);
     rerender();
-  }
-
-  // Returns a random number(integer) from 1 to n (inclusive)
-  function getRandom(n) {
-    return Math.floor(Math.random() * n + 1);
   }
 
   // Creates a random array of data of n elements and overwrites the current tree
