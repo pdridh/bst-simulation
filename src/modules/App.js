@@ -110,9 +110,11 @@ const App = (() => {
   }
 
   function clear() {
-    buildTree([]);
+    tree.clear();
+    currentTreeState = tree.state;
     render();
   }
+
 
   return {
     init,
