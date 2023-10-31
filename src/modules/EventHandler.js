@@ -32,6 +32,10 @@ const EventHandler = (() => {
   }
 
   function handleCreateBtn(e) {
+    if (App.isAnimating()) {
+      return;
+    }
+
     if (arrayInput.value === "") {
       alert("Please enter the elements to create tree with");
       return;
@@ -52,6 +56,10 @@ const EventHandler = (() => {
   }
 
   function handleInsertBtn(e) {
+    if (App.isAnimating()) {
+      return;
+    }
+
     if (insertInput.value === "") {
       alert("Please enter an element to insert");
       return;
@@ -69,6 +77,10 @@ const EventHandler = (() => {
   }
 
   function handleDeleteBtn(e) {
+    if (App.isAnimating()) {
+      return;
+    }
+
     if (deleteInput.value === "") {
       alert("Please enter an element to delete");
       return;
@@ -87,6 +99,10 @@ const EventHandler = (() => {
   }
 
   function handleRandomBtn(e) {
+    if (App.isAnimating()) {
+      return;
+    }
+
     //if its empty alert the user
     if (randomInput.value === "") {
       alert("Please enter the number of elements to create random tree");
@@ -105,10 +121,18 @@ const EventHandler = (() => {
   }
 
   function handleClearBtn(e) {
+    if (App.isAnimating()) {
+      return;
+    }
+
     App.clear();
   }
 
   function handleBalanceBtn(e) {
+    if (App.isAnimating()) {
+      return;
+    }
+
     App.balance();
   }
 
