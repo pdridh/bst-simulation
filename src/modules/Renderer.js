@@ -114,19 +114,21 @@ class Renderer {
     const edges = state.positions.edges;
 
     edges.forEach((edge) => {
-      const offsetEdge = {};
-      offsetEdge.x1 = edge.x1 + this.canvas.width / 2 - state.rootPosition.x;
-      offsetEdge.y1 = edge.y1 + Settings.constants.OFFSET_Y;
-      offsetEdge.x2 = edge.x2 + this.canvas.width / 2 - state.rootPosition.x;
-      offsetEdge.y2 = edge.y2 + Settings.constants.OFFSET_Y;
+      const offsetEdge = Object.assign({}, edge);
+      offsetEdge.x1 =
+        offsetEdge.x1 + this.canvas.width / 2 - state.rootPosition.x;
+      offsetEdge.y1 = offsetEdge.y1 + Settings.constants.OFFSET_Y;
+      offsetEdge.x2 =
+        offsetEdge.x2 + this.canvas.width / 2 - state.rootPosition.x;
+      offsetEdge.y2 = offsetEdge.y2 + Settings.constants.OFFSET_Y;
       this.renderEdge(offsetEdge);
     });
+
     nodes.forEach((node) => {
-      const offsetNode = {};
-      offsetNode.highlighted = node.highlighted;
-      offsetNode.data = node.data;
-      offsetNode.x = node.x + this.canvas.width / 2 - state.rootPosition.x;
-      offsetNode.y = node.y + Settings.constants.OFFSET_Y;
+      const offsetNode = Object.assign({}, node);
+      offsetNode.x =
+        offsetNode.x + this.canvas.width / 2 - state.rootPosition.x;
+      offsetNode.y = offsetNode.y + Settings.constants.OFFSET_Y;
       this.renderNode(offsetNode);
     });
   }
