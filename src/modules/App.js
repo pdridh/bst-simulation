@@ -2,7 +2,7 @@ import Tree from "./Tree";
 import Renderer from "./Renderer";
 import EventHandler from "./EventHandler";
 import Settings from "./Settings";
-import { getRandom } from "./utils";
+import { getRandom, isObjectEmpty } from "./utils";
 
 // IIFE module that acts as a driver for all the rendering and updating of the tree
 const App = (() => {
@@ -11,7 +11,8 @@ const App = (() => {
   let currentTreeState = null;
 
   let renderer = null;
-
+  let animatorInterval = null;
+  let animating = false;
   // Creates a new tree and and a new renderer for that tree
   // Then starts listening to inputs
   function init() {
@@ -46,10 +47,38 @@ const App = (() => {
     renderer.render(currentTreeState);
   }
 
+  function animation() {
+    return new Promise((resolve, reject) => {
+      animatorInterval = setInterval(() => {
+        if (tree.recordStack.length === 0 || isObjectEmpty(lastTreeState)) {
+          resolve();
+          return;
+        }
+
+        const nodeInUpdated = tree.recordStack.shift();
+
+        const nodeInLast = lastTreeState.positions.nodes.find(
+          (node) => node.data === nodeInUpdated.data
+        );
+        nodeInLast.highlighted = true;
+
+        render();
+      }, 500);
+    });
+  }
+
   function saveTreeState() {
     lastTreeState = Object.assign({}, tree.state);
   }
 
+  async function beginAnimation() {
+    animating = true;
+    currentTreeState = lastTreeState;
+    await animation();
+    clearInterval(animatorInterval);
+    currentTreeState = tree.state;
+    render();
+    animating = false;
   }
 
   // Inserts a number in the tree and updates the screen
@@ -59,11 +88,11 @@ const App = (() => {
       alert("Reached Max number of nodes: " + Settings.constants.MAX_NODES);
       return;
     }
-
+    // Save the last tree state
+    saveTreeState();
     // Insert the number to tree
     tree.insert(num);
-
-    render();
+    beginAnimation();
   }
 
   // Deletes a number in the tree and updates the screen
@@ -74,8 +103,10 @@ const App = (() => {
       return;
     }
 
+    saveTreeState();
     tree.delete(num);
-    rerender();
+
+    beginAnimation();
   }
 
   // Builds a new tree using the given data and updates the screen
@@ -115,11 +146,15 @@ const App = (() => {
     render();
   }
 
+  function isAnimating() {
+    return animating;
+  }
 
   return {
     init,
     start,
     buildTree,
+    isAnimating,
     insertNumber,
     deleteNumber,
     createRandom,
