@@ -138,6 +138,7 @@ class Tree {
     this.root = this.#buildTree(data);
     this.updateTreeSettings();
   }
+
   // Clears the tree and its state completely
   clear() {
     this.root = null;
@@ -234,6 +235,9 @@ class Tree {
   // Wrapper function for the recursive deletion
   delete(data) {
     this.root = this.#deleteNode(data, this.root);
+    if (this.root === null) {
+      this.clear();
+    }
     this.updateTreeSettings();
   }
 
