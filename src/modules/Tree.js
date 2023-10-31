@@ -5,6 +5,9 @@ class Tree {
   constructor(data) {
     this.root = null;
 
+    // For recording the traversals
+    this.recordStack = [];
+
     // for drawing
     this.state = {};
     if (data) {
@@ -143,6 +146,7 @@ class Tree {
       return node;
     }
 
+    this.recordStack.push(node);
     if (data < node.data) {
       node.left = this.#insertNode(data, node.left);
     } else if (data > node.data) {
@@ -185,6 +189,8 @@ class Tree {
     if (node === null) {
       return node;
     }
+
+    this.recordStack.push(node);
 
     if (data < node.data) {
       node.left = this.#deleteNode(data, node.left);
