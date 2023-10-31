@@ -1,6 +1,8 @@
 import Camera from "./Camera";
 import Settings from "./Settings";
 
+import { isObjectEmpty } from "./utils";
+
 // Handles drawing of the screen
 // Uses Camera for the drawing and also calculates the constraints for the Camera
 class Renderer {
@@ -26,21 +28,21 @@ class Renderer {
   }
 
   // Calculate the constraints for the Camera based on the current tree boundingBox
-  updateWorldBounds(tree) {
-    if (tree.root === null) {
+  updateWorldBounds(state) {
+    if (isObjectEmpty(state)) {
       return;
     }
 
-    const bbox = tree.boundingBox;
+    const bbox = state.boundingBox;
 
     this.worldBounds.minX = Math.min(
       0,
-      bbox.x + this.canvas.width / 2 - tree.root.x
+      bbox.x + this.canvas.width / 2 - state.rootPosition.x
     );
 
     this.worldBounds.maxX = Math.max(
       this.canvas.width,
-      bbox.w + this.canvas.width / 2 - tree.root.x
+      bbox.w + this.canvas.width / 2 - state.rootPosition.x
     );
     this.worldBounds.minY = 0;
     this.worldBounds.maxY = Math.max(
@@ -107,16 +109,15 @@ class Renderer {
   }
 
   // Render the whole tree
-  renderTree(tree) {
-    const state = tree.state;
-    const nodes = state.nodes;
-    const edges = state.edges;
+  renderTree(state) {
+    const nodes = state.positions.nodes;
+    const edges = state.positions.edges;
 
     edges.forEach((edge) => {
       const offsetEdge = {};
-      offsetEdge.x1 = edge.x1 + this.canvas.width / 2 - tree.root.x;
+      offsetEdge.x1 = edge.x1 + this.canvas.width / 2 - state.rootPosition.x;
       offsetEdge.y1 = edge.y1 + Settings.constants.OFFSET_Y;
-      offsetEdge.x2 = edge.x2 + this.canvas.width / 2 - tree.root.x;
+      offsetEdge.x2 = edge.x2 + this.canvas.width / 2 - state.rootPosition.x;
       offsetEdge.y2 = edge.y2 + Settings.constants.OFFSET_Y;
       this.renderEdge(offsetEdge);
     });
@@ -124,34 +125,34 @@ class Renderer {
       const offsetNode = {};
       offsetNode.highlighted = node.highlighted;
       offsetNode.data = node.data;
-      offsetNode.x = node.x + this.canvas.width / 2 - tree.root.x;
+      offsetNode.x = node.x + this.canvas.width / 2 - state.rootPosition.x;
       offsetNode.y = node.y + Settings.constants.OFFSET_Y;
       this.renderNode(offsetNode);
     });
   }
 
-  renderStats(tree) {
+  renderStats(state) {
     this.ctx.font = Settings.constants.STAT_FONT;
     this.ctx.fillStyle = Settings.constants.STAT_COLOR;
     this.ctx.textAlign = "left";
 
     // N elements
     this.ctx.fillText(
-      "Number of elements: " + tree.length,
+      "Number of elements: " + state.length,
       Settings.constants.STAT_X,
       Settings.constants.OFFSET_Y
     );
 
     // Tree balance status
     this.ctx.fillText(
-      "Balanced: " + tree.balanced(),
+      "Balanced: " + state.balanced,
       Settings.constants.STAT_X,
       Settings.constants.OFFSET_Y + 20
     );
   }
 
-  render(tree) {
-    if (tree.root === null) {
+  render(state) {
+    if (isObjectEmpty(state)) {
       // Clear if anything is drawn
       this.clearCanvas();
       return;
@@ -165,13 +166,13 @@ class Renderer {
     if (this.camera.on) {
       this.camera.update();
       this.camera.move(this.ctx);
-      this.renderTree(tree);
+      this.renderTree(state);
       this.camera.reset(this.ctx);
     } else {
-      this.renderTree(tree);
+      this.renderTree(state);
     }
     this.updated = false;
-    this.renderStats(tree);
+    this.renderStats(state);
   }
 }
 
