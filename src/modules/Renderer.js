@@ -16,10 +16,7 @@ class Renderer {
     // For keeping track of the renders
     this.updated = false;
 
-    this.tree = tree;
-
     this.camera = new Camera(this.worldBounds, this.canvas);
-    this.updateWorldBounds();
 
     // For capping fps
     this.fps = Settings.constants.FPS;
@@ -29,21 +26,21 @@ class Renderer {
   }
 
   // Calculate the constraints for the Camera based on the current tree boundingBox
-  updateWorldBounds() {
-    if (this.tree.root === null) {
+  updateWorldBounds(tree) {
+    if (tree.root === null) {
       return;
     }
 
-    const bbox = this.tree.boundingBox;
+    const bbox = tree.boundingBox;
 
     this.worldBounds.minX = Math.min(
       0,
-      bbox.x + this.canvas.width / 2 - this.tree.root.x
+      bbox.x + this.canvas.width / 2 - tree.root.x
     );
 
     this.worldBounds.maxX = Math.max(
       this.canvas.width,
-      bbox.w + this.canvas.width / 2 - this.tree.root.x
+      bbox.w + this.canvas.width / 2 - tree.root.x
     );
     this.worldBounds.minY = 0;
     this.worldBounds.maxY = Math.max(
@@ -66,13 +63,17 @@ class Renderer {
 
   // Render a node using its x and y positions
   // Also render its edge to connect to its parent
-  renderNode(data, x, y, parentX, parentY) {
+  renderNode(node) {
     // Draw circle
-    this.ctx.fillStyle = Settings.constants.NODE_COLOR;
+    let color;
+    if (node.highlighted) {
+      color = "red";
+    }
+    this.ctx.fillStyle = color || Settings.constants.NODE_COLOR;
     this.ctx.beginPath();
     this.ctx.arc(
-      x,
-      y,
+      node.x,
+      node.y,
       Settings.constants.NODE_RADIUS,
       0,
       Settings.constants.MAX_RADIAN
@@ -88,54 +89,69 @@ class Renderer {
     this.ctx.font = Settings.constants.DATA_FONT;
     this.ctx.fillStyle = Settings.constants.DATA_COLOR;
     this.ctx.textAlign = "center";
-    this.ctx.fillText(data, x, y + Settings.constants.TEXT_OFFSET);
+    this.ctx.fillText(
+      node.data,
+      node.x,
+      node.y + Settings.constants.TEXT_OFFSET
+    );
+  }
 
+  renderEdge(edge) {
     // Edges
+    this.ctx.lineWidth = 2.5;
+    this.ctx.strokeStyle = Settings.constants.BORDER_COLOR;
     this.ctx.beginPath();
-    this.ctx.moveTo(parentX, parentY + Settings.constants.NODE_RADIUS);
-    this.ctx.lineTo(x, y - Settings.constants.NODE_RADIUS);
+    this.ctx.moveTo(edge.x1, edge.y1);
+    this.ctx.lineTo(edge.x2, edge.y2);
     this.ctx.stroke();
   }
 
-  // Recursively renders the whole tree
-  renderTree(
-    node = this.tree.root,
-    parentX = node.x + this.canvas.width / 2 - this.tree.root.x,
-    parentY = -Settings.constants.NODE_RADIUS
-  ) {
-    if (!node) return;
+  // Render the whole tree
+  renderTree(tree) {
+    const state = tree.state;
+    const nodes = state.nodes;
+    const edges = state.edges;
 
-    // Calculate x and y position for rendering nodes
-    const x = node.x + this.canvas.width / 2 - this.tree.root.x;
-    const y = node.y + Settings.constants.OFFSET_Y;
-    this.renderNode(node.data, x, y, parentX, parentY);
-
-    if (node.left) this.renderTree(node.left, x, y);
-    if (node.right) this.renderTree(node.right, x, y);
+    edges.forEach((edge) => {
+      const offsetEdge = {};
+      offsetEdge.x1 = edge.x1 + this.canvas.width / 2 - tree.root.x;
+      offsetEdge.y1 = edge.y1 + Settings.constants.OFFSET_Y;
+      offsetEdge.x2 = edge.x2 + this.canvas.width / 2 - tree.root.x;
+      offsetEdge.y2 = edge.y2 + Settings.constants.OFFSET_Y;
+      this.renderEdge(offsetEdge);
+    });
+    nodes.forEach((node) => {
+      const offsetNode = {};
+      offsetNode.highlighted = node.highlighted;
+      offsetNode.data = node.data;
+      offsetNode.x = node.x + this.canvas.width / 2 - tree.root.x;
+      offsetNode.y = node.y + Settings.constants.OFFSET_Y;
+      this.renderNode(offsetNode);
+    });
   }
 
-  renderStats() {
+  renderStats(tree) {
     this.ctx.font = Settings.constants.STAT_FONT;
     this.ctx.fillStyle = Settings.constants.STAT_COLOR;
     this.ctx.textAlign = "left";
 
     // N elements
     this.ctx.fillText(
-      "Number of elements: " + this.tree.length,
+      "Number of elements: " + tree.length,
       Settings.constants.STAT_X,
       Settings.constants.OFFSET_Y
     );
 
     // Tree balance status
     this.ctx.fillText(
-      "Balanced: " + this.tree.balanced(),
+      "Balanced: " + tree.balanced(),
       Settings.constants.STAT_X,
       Settings.constants.OFFSET_Y + 20
     );
   }
 
-  render() {
-    if (this.tree.root === null) {
+  render(tree) {
+    if (tree.root === null) {
       // Clear if anything is drawn
       this.clearCanvas();
       return;
@@ -149,13 +165,13 @@ class Renderer {
     if (this.camera.on) {
       this.camera.update();
       this.camera.move(this.ctx);
-      this.renderTree();
+      this.renderTree(tree);
       this.camera.reset(this.ctx);
     } else {
-      this.renderTree();
+      this.renderTree(tree);
     }
     this.updated = false;
-    this.renderStats();
+    this.renderStats(tree);
   }
 }
 
