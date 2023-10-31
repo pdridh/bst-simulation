@@ -5,4 +5,12 @@ function clamp(value, min, max) {
   return value;
 }
 
-export { clamp };
+// Utility that checks if an object is emtpy
+function isObjectEmpty(obj) {
+  return JSON.stringify(obj) === "{}";
+}
+
+module.exports = {
+  clamp,
+  isObjectEmpty,
+};
