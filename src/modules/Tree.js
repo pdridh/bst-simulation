@@ -6,7 +6,7 @@ class Tree {
     this.root = null;
 
     // for drawing
-    this.boundingBox = { x: 0, y: 0, w: 0, h: 0 };
+    this.state = {};
     if (data) {
       this.build(data);
     }
@@ -79,13 +79,40 @@ class Tree {
       }
     });
 
-    this.boundingBox.x = leftMost.x - Settings.constants.NODE_RADIUS;
-    this.boundingBox.y = top.y - Settings.constants.NODE_RADIUS;
-    this.boundingBox.w = rightMost.x + Settings.constants.NODE_RADIUS;
-    this.boundingBox.h = bottom.y + Settings.constants.NODE_RADIUS;
-    this.boundingBox.area =
-      (this.boundingBox.w - this.boundingBox.x) *
-      (this.boundingBox.h - this.boundingBox.y);
+    this.state.boundingBox = {};
+    this.state.boundingBox.x = leftMost.x - Settings.constants.NODE_RADIUS;
+    this.state.boundingBox.y = top.y - Settings.constants.NODE_RADIUS;
+    this.state.boundingBox.w = rightMost.x + Settings.constants.NODE_RADIUS;
+    this.state.boundingBox.h = bottom.y + Settings.constants.NODE_RADIUS;
+    this.state.boundingBox.area =
+      (this.state.boundingBox.w - this.state.boundingBox.x) *
+      (this.state.boundingBox.h - this.state.boundingBox.y);
+  }
+
+  calculateNodesAndEdges(
+    node = this.root,
+    positions = {
+      nodes: [],
+      edges: [],
+    },
+    parent = { x: this.root.x, y: -Settings.constants.NODE_RADIUS * 3 }
+  ) {
+    if (node === null) {
+      return;
+    }
+
+    positions.nodes.push(Object.assign({}, node));
+    positions.edges.push({
+      x1: node.x,
+      y1: node.y,
+      x2: parent.x,
+      y2: parent.y,
+    });
+
+    if (node.left) this.calculateNodesAndEdges(node.left, positions, node);
+    if (node.right) this.calculateNodesAndEdges(node.right, positions, node);
+
+    return positions;
   }
 
   // Update all tree settings
@@ -95,6 +122,11 @@ class Tree {
     }
     this.assignNodePositions();
     this.updateBoundingBox();
+
+    this.state.positions = this.calculateNodesAndEdges();
+    this.state.rootPosition = { x: this.root.x, y: this.root.y };
+    this.state.balanced = this.balanced();
+    this.state.length = this.length;
   }
 
   // Sanitizes the given data and builds the tree
