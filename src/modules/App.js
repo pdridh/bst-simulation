@@ -7,15 +7,18 @@ import { getRandom } from "./utils";
 // IIFE module that acts as a driver for all the rendering and updating of the tree
 const App = (() => {
   let tree = null;
+  let currentTreeState = null;
+
   let renderer = null;
 
   // Creates a new tree and and a new renderer for that tree
   // Then starts listening to inputs
   function init() {
     tree = new Tree();
-    renderer = new Renderer(tree);
+    currentTreeState = tree.state;
+    renderer = new Renderer();
     EventHandler.listen();
-    rerender();
+    render();
   }
 
   // Start keeps looping and updating the camera and rendering if anything has changed
@@ -30,31 +33,32 @@ const App = (() => {
         EventHandler.isKeyPressed("ArrowDown")) &&
       renderer.camera.hasMoved
     ) {
-      renderer.updated = true;
-      renderer.render();
+      render();
     }
 
     requestAnimationFrame(start);
   }
 
-  // Updates the renderer settings and sets drawing flag to true
-  // By which the renderer then renders
-  function rerender() {
-    renderer.updateWorldBounds();
+  function render() {
     renderer.updated = true;
-    renderer.render();
+    renderer.updateWorldBounds(currentTreeState);
+    renderer.render(currentTreeState);
+  }
+
   }
 
   // Inserts a number in the tree and updates the screen
   function insertNumber(num) {
-    if (tree.length < Settings.constants.MAX_NODES) {
-      tree.insert(num);
-      rerender();
+    if (tree.length >= Settings.constants.MAX_NODES) {
+      //Cant insert
+      alert("Reached Max number of nodes: " + Settings.constants.MAX_NODES);
       return;
     }
 
-    //Cant insert
-    alert("Reached Max number of nodes: " + Settings.constants.MAX_NODES);
+    // Insert the number to tree
+    tree.insert(num);
+
+    render();
   }
 
   // Deletes a number in the tree and updates the screen
@@ -72,7 +76,7 @@ const App = (() => {
   // Builds a new tree using the given data and updates the screen
   function buildTree(data) {
     tree.build(data);
-    rerender();
+    render();
   }
 
   // Creates a random array of data of n elements and overwrites the current tree
@@ -97,12 +101,12 @@ const App = (() => {
 
   function balance() {
     tree.rebalance();
-    rerender();
+    render();
   }
 
   function clear() {
     buildTree([]);
-    rerender();
+    render();
   }
 
   return {
