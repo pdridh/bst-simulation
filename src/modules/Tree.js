@@ -138,6 +138,12 @@ class Tree {
     this.root = this.#buildTree(data);
     this.updateTreeSettings();
   }
+  // Clears the tree and its state completely
+  clear() {
+    this.root = null;
+    this.state = {};
+    this.recordStack = [];
+  }
 
   // Insert a new node with the given data if it doesn't exist
   #insertNode(data, node) {
