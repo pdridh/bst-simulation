@@ -77,7 +77,7 @@ A simple implementation of a **binary search tree (BST)** data structure and bas
 
 [Hosted live on github pages][gh-page]
 
-<img src="src/assets/screenshot.png">
+<a href="https://imaginepog.github.io/bst-simulation/"><img src="src/assets/screenshot.png"></a>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
