@@ -168,6 +168,10 @@ class Renderer {
     }
   }
 
+  centerCamera() {
+    this.camera.center();
+  }
+
   render(state, targetPos) {
     if (isObjectEmpty(state)) {
       // Clear if anything is drawn
@@ -181,7 +185,11 @@ class Renderer {
 
     this.clearCanvas();
     if (this.camera.on) {
-      if (targetPos && targetPos.x && targetPos.y) {
+      if (
+        targetPos !== undefined &&
+        targetPos.x !== undefined &&
+        targetPos.y !== undefined
+      ) {
         // OFFSET
         targetPos.x =
           targetPos.x + this.canvas.width / 2 - state.rootPosition.x;

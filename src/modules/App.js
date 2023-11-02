@@ -162,6 +162,7 @@ const App = (() => {
     tree.clear();
     currentTreeState = tree.state;
     saveTreeState();
+    renderer.centerCamera();
     render();
   }
 

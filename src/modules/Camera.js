@@ -98,6 +98,11 @@ class Camera {
   reset(ctx) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
+
+  center() {
+    this.targetX = this.canvas.width / 2;
+    this.targetY = this.canvas.height / 2;
+  }
 }
 
 export default Camera;
