@@ -7,6 +7,8 @@ const EventHandler = (() => {
 
   const canvas = document.querySelector("#canvas");
 
+  const controls = document.querySelector(".controls-container");
+
   const createBtn = document.querySelector(".create-btn");
   const arrayInput = document.querySelector("#array-input");
 
@@ -39,10 +41,6 @@ const EventHandler = (() => {
   }
 
   function handleCreateBtn(e) {
-    if (App.isAnimating()) {
-      return;
-    }
-
     if (arrayInput.value === "") {
       alert("Please enter the elements to create tree with");
       return;
@@ -63,10 +61,6 @@ const EventHandler = (() => {
   }
 
   function handleInsertBtn(e) {
-    if (App.isAnimating()) {
-      return;
-    }
-
     if (insertInput.value === "") {
       alert("Please enter an element to insert");
       return;
@@ -84,10 +78,6 @@ const EventHandler = (() => {
   }
 
   function handleDeleteBtn(e) {
-    if (App.isAnimating()) {
-      return;
-    }
-
     if (deleteInput.value === "") {
       alert("Please enter an element to delete");
       return;
@@ -106,10 +96,6 @@ const EventHandler = (() => {
   }
 
   function handleRandomBtn(e) {
-    if (App.isAnimating()) {
-      return;
-    }
-
     //if its empty alert the user
     if (randomInput.value === "") {
       alert("Please enter the number of elements to create random tree");
@@ -128,26 +114,14 @@ const EventHandler = (() => {
   }
 
   function handleClearBtn(e) {
-    if (App.isAnimating()) {
-      return;
-    }
-
     App.clear();
   }
 
   function handleBalanceBtn(e) {
-    if (App.isAnimating()) {
-      return;
-    }
-
     App.balance();
   }
 
   function handleTraversalBtn(e) {
-    if (App.isAnimating()) {
-      return;
-    }
-
     App.traverse(e.currentTarget.dataset.type);
   }
 
@@ -156,11 +130,16 @@ const EventHandler = (() => {
   }
 
   function handleRecenterBtn(e) {
-    if (App.isAnimating()) {
-      return;
-    }
-
     App.recenter();
+  }
+
+  function handleControlsClick(e) {
+    if (App.isAnimating()) {
+      alert(
+        "Please wait for animation to end or skip the animation by clicking on the canvas"
+      );
+      e.stopPropagation();
+    }
   }
 
   // Start listening to keydown and keyup events
@@ -168,13 +147,21 @@ const EventHandler = (() => {
     window.addEventListener("keydown", registerKeyDown);
     window.addEventListener("keyup", registerKeyUp);
     canvas.addEventListener("click", handleCanvasClick);
+
+    controls.addEventListener("click", handleControlsClick, true);
+
+    // Tree buttons
+    createBtn.addEventListener("click", handleCreateBtn);
+    randomBtn.addEventListener("click", handleRandomBtn);
     insertBtn.addEventListener("click", handleInsertBtn);
     deleteBtn.addEventListener("click", handleDeleteBtn);
-    balanceBtn.addEventListener("click", handleBalanceBtn);
-    randomBtn.addEventListener("click", handleRandomBtn);
+
+    // Setting buttons
     recenterBtn.addEventListener("click", handleRecenterBtn);
     clearBtn.addEventListener("click", handleClearBtn);
-    createBtn.addEventListener("click", handleCreateBtn);
+    balanceBtn.addEventListener("click", handleBalanceBtn);
+
+    // Traversal buttons
     inorderBtn.addEventListener("click", handleTraversalBtn);
     levelOrderBtn.addEventListener("click", handleTraversalBtn);
     preorderBtn.addEventListener("click", handleTraversalBtn);
