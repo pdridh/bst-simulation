@@ -162,8 +162,7 @@ const App = (() => {
     tree.clear();
     currentTreeState = tree.state;
     saveTreeState();
-    renderer.centerCamera();
-    render();
+    recenter();
   }
 
   function traverse(type) {
@@ -180,6 +179,11 @@ const App = (() => {
     return animating;
   }
 
+  function recenter() {
+    renderer.centerCamera();
+    render();
+  }
+
   return {
     init,
     start,
@@ -192,6 +196,7 @@ const App = (() => {
     clear,
     balance,
     traverse,
+    center,
   };
 })();
 

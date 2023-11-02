@@ -19,6 +19,7 @@ const EventHandler = (() => {
   const randomBtn = document.querySelector(".random-btn");
   const randomInput = document.querySelector("#random-input");
 
+  const recenterBtn = document.querySelector(".recenter-btn");
   const clearBtn = document.querySelector(".clear-btn");
   const balanceBtn = document.querySelector(".balance-btn");
 
@@ -154,6 +155,14 @@ const EventHandler = (() => {
     if (App.isAnimating()) App.skipAnimation();
   }
 
+  function handleRecenterBtn(e) {
+    if (App.isAnimating()) {
+      return;
+    }
+
+    App.recenter();
+  }
+
   // Start listening to keydown and keyup events
   function listen() {
     window.addEventListener("keydown", registerKeyDown);
@@ -163,6 +172,7 @@ const EventHandler = (() => {
     deleteBtn.addEventListener("click", handleDeleteBtn);
     balanceBtn.addEventListener("click", handleBalanceBtn);
     randomBtn.addEventListener("click", handleRandomBtn);
+    recenterBtn.addEventListener("click", handleRecenterBtn);
     clearBtn.addEventListener("click", handleClearBtn);
     createBtn.addEventListener("click", handleCreateBtn);
     inorderBtn.addEventListener("click", handleTraversalBtn);
