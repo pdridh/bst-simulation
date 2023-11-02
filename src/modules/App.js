@@ -25,6 +25,9 @@ const App = (() => {
 
   // Start keeps looping and updating the camera and rendering if anything has changed
   function start() {
+    if (isAnimating) {
+      return;
+    }
     renderer.camera.update();
 
     // If pressing movement key and the camera has moved
