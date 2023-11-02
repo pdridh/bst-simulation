@@ -292,6 +292,29 @@ class Tree {
     return this.#inOrder(callback, this.root);
   }
 
+  recordTraversal(type) {
+    if (!this.root) {
+      return;
+    }
+
+    switch (type) {
+      case "level":
+        this.recordStack = this.levelOrder();
+        break;
+      case "in":
+        this.recordStack = this.inOrder();
+        break;
+      case "pre":
+        this.recordStack = this.preOrder();
+        break;
+      case "post":
+        this.recordStack = this.postOrder();
+        break;
+    }
+
+    this.updateTreeSettings();
+  }
+
   // Traverses the tree in pre-order
   // Visits node in Root-Left-Right pattern
   #preOrder(callback, node, arr = []) {

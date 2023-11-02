@@ -151,6 +151,12 @@ const App = (() => {
     render();
   }
 
+  function traverse(type) {
+    saveTreeState();
+    tree.recordTraversal(type);
+    beginAnimation();
+  }
+
   function isAnimating() {
     return animating;
   }
@@ -165,6 +171,7 @@ const App = (() => {
     createRandom,
     clear,
     balance,
+    traverse,
   };
 })();
 

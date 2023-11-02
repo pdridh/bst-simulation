@@ -18,8 +18,12 @@ const EventHandler = (() => {
   const randomInput = document.querySelector("#random-input");
 
   const clearBtn = document.querySelector(".clear-btn");
-
   const balanceBtn = document.querySelector(".balance-btn");
+
+  const levelOrderBtn = document.querySelector(".level-order-btn");
+  const inorderBtn = document.querySelector(".inorder-btn");
+  const preorderBtn = document.querySelector(".preorder-btn");
+  const postorderBtn = document.querySelector(".postorder-btn");
 
   // Registers the pressed key if it hasnt been registered
   function registerKeyDown(e) {
@@ -136,6 +140,14 @@ const EventHandler = (() => {
     App.balance();
   }
 
+  function handleTraversalBtn(e) {
+    if (App.isAnimating()) {
+      return;
+    }
+
+    App.traverse(e.currentTarget.dataset.type);
+  }
+
   // Start listening to keydown and keyup events
   function listen() {
     window.addEventListener("keydown", registerKeyDown);
@@ -146,6 +158,10 @@ const EventHandler = (() => {
     randomBtn.addEventListener("click", handleRandomBtn);
     clearBtn.addEventListener("click", handleClearBtn);
     createBtn.addEventListener("click", handleCreateBtn);
+    inorderBtn.addEventListener("click", handleTraversalBtn);
+    levelOrderBtn.addEventListener("click", handleTraversalBtn);
+    preorderBtn.addEventListener("click", handleTraversalBtn);
+    postorderBtn.addEventListener("click", handleTraversalBtn);
   }
 
   // Returns true if the given key is pressed
