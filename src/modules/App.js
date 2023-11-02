@@ -86,7 +86,7 @@ const App = (() => {
     currentTreeState = lastTreeState;
     await animation(deleted, animationSkipper);
     clearInterval(animatorInterval);
-    if (tree.recordStack.length) {
+    if (tree.recordStack.length && !isObjectEmpty(lastTreeState)) {
       const skipNode = tree.recordStack.pop();
       const nodeInLast = lastTreeState.positions.nodes.find(
         (node) => node.data === skipNode
@@ -161,6 +161,7 @@ const App = (() => {
   function clear() {
     tree.clear();
     currentTreeState = tree.state;
+    saveTreeState();
     render();
   }
 
