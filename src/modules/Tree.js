@@ -6,7 +6,7 @@ class Tree {
     this.root = null;
 
     // For recording the traversals
-    this.recordStack = [];
+    this.clearRecords();
 
     // for drawing
     this.state = {};
@@ -139,11 +139,15 @@ class Tree {
     this.updateTreeSettings();
   }
 
+  clearRecords() {
+    this.recordStack = [];
+  }
+
   // Clears the tree and its state completely
   clear() {
     this.root = null;
     this.state = {};
-    this.recordStack = [];
+    this.clearRecords();
   }
 
   // Insert a new node with the given data if it doesn't exist

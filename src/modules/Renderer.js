@@ -1,3 +1,4 @@
+import App from "./App";
 import Camera from "./Camera";
 import Settings from "./Settings";
 
@@ -156,6 +157,15 @@ class Renderer {
       Settings.constants.STAT_X,
       Settings.constants.OFFSET_Y + 20
     );
+
+    if (App.isAnimating()) {
+      this.ctx.textAlign = "center";
+      this.ctx.fillText(
+        "Click anywhere in the canvas to skip the animation",
+        this.canvas.width / 2,
+        this.canvas.height - 10
+      );
+    }
   }
 
   render(state, targetPos) {
@@ -171,7 +181,7 @@ class Renderer {
 
     this.clearCanvas();
     if (this.camera.on) {
-      if (targetPos) {
+      if (targetPos && targetPos.x && targetPos.y) {
         // OFFSET
         targetPos.x =
           targetPos.x + this.canvas.width / 2 - state.rootPosition.x;

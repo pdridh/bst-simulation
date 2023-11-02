@@ -5,6 +5,8 @@ import Settings from "./Settings";
 const EventHandler = (() => {
   let pressedKeys = [];
 
+  const canvas = document.querySelector("#canvas");
+
   const createBtn = document.querySelector(".create-btn");
   const arrayInput = document.querySelector("#array-input");
 
@@ -148,10 +150,15 @@ const EventHandler = (() => {
     App.traverse(e.currentTarget.dataset.type);
   }
 
+  function handleCanvasClick(e) {
+    App.skipAnimation();
+  }
+
   // Start listening to keydown and keyup events
   function listen() {
     window.addEventListener("keydown", registerKeyDown);
     window.addEventListener("keyup", registerKeyUp);
+    canvas.addEventListener("click", handleCanvasClick);
     insertBtn.addEventListener("click", handleInsertBtn);
     deleteBtn.addEventListener("click", handleDeleteBtn);
     balanceBtn.addEventListener("click", handleBalanceBtn);

@@ -13,6 +13,8 @@ const App = (() => {
   let renderer = null;
   let animatorInterval = null;
   let animating = false;
+
+  let animationSkipper = null;
   // Creates a new tree and and a new renderer for that tree
   // Then starts listening to inputs
   function init() {
@@ -51,6 +53,7 @@ const App = (() => {
 
   function animation(deleted) {
     return new Promise((resolve, reject) => {
+      animationSkipper = resolve;
       animatorInterval = setInterval(() => {
         if (tree.recordStack.length === 0 || isObjectEmpty(lastTreeState)) {
           resolve();
@@ -81,8 +84,16 @@ const App = (() => {
   async function beginAnimation(deleted) {
     animating = true;
     currentTreeState = lastTreeState;
-    await animation(deleted);
+    await animation(deleted, animationSkipper);
     clearInterval(animatorInterval);
+    if (tree.recordStack.length) {
+      const skipNode = tree.recordStack.pop();
+      const nodeInLast = lastTreeState.positions.nodes.find(
+        (node) => node.data === skipNode
+      );
+      render({ x: nodeInLast.x, y: nodeInLast.y });
+      tree.clearRecords();
+    }
     animating = false;
     currentTreeState = tree.state;
     render();
@@ -159,6 +170,10 @@ const App = (() => {
     beginAnimation();
   }
 
+  function skipAnimation() {
+    animationSkipper();
+  }
+
   function isAnimating() {
     return animating;
   }
@@ -168,6 +183,7 @@ const App = (() => {
     start,
     buildTree,
     isAnimating,
+    skipAnimation,
     insertNumber,
     deleteNumber,
     createRandom,
