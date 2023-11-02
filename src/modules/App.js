@@ -166,6 +166,13 @@ const App = (() => {
   }
 
   async function traverse(type) {
+    if (!tree.root) {
+      alert(
+        "There is no tree to traverse, please create a tree or insert element."
+      );
+      return;
+    }
+
     saveTreeState();
     tree.recordTraversal(type);
     await beginAnimation();
