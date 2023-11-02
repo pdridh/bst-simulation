@@ -11,6 +11,10 @@ html {
 body {
   min-height: 100%;
   min-width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .canvas-frame {
@@ -90,4 +94,23 @@ body {
 
 .btn:active {
   opacity: 0.5;
+}
+
+#footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.2rem;
+}
+
+.source {
+  width: 30px;
+  height: 30px;
+
+  background-image: url("../assets/github-mark.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
