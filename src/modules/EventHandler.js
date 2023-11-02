@@ -151,7 +151,7 @@ const EventHandler = (() => {
   }
 
   function handleCanvasClick(e) {
-    App.skipAnimation();
+    if (App.isAnimating()) App.skipAnimation();
   }
 
   // Start listening to keydown and keyup events
