@@ -25,7 +25,8 @@ const App = (() => {
 
   // Start keeps looping and updating the camera and rendering if anything has changed
   function start() {
-    if (isAnimating) {
+    requestAnimationFrame(start);
+    if (animating) {
       return;
     }
     renderer.camera.update();
@@ -40,8 +41,6 @@ const App = (() => {
     ) {
       render();
     }
-
-    requestAnimationFrame(start);
   }
 
   function render(targetPos) {
@@ -84,9 +83,9 @@ const App = (() => {
     currentTreeState = lastTreeState;
     await animation(deleted);
     clearInterval(animatorInterval);
+    animating = false;
     currentTreeState = tree.state;
     render();
-    animating = false;
   }
 
   // Inserts a number in the tree and updates the screen
