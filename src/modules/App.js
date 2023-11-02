@@ -165,10 +165,11 @@ const App = (() => {
     recenter();
   }
 
-  function traverse(type) {
+  async function traverse(type) {
     saveTreeState();
     tree.recordTraversal(type);
-    beginAnimation();
+    await beginAnimation();
+    recenter();
   }
 
   function skipAnimation() {
@@ -196,7 +197,7 @@ const App = (() => {
     clear,
     balance,
     traverse,
-    center,
+    recenter,
   };
 })();
 
