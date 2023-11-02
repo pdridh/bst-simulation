@@ -14,10 +14,11 @@
         <div class="input-container">
           <input
             type="text"
-            placeholder="Enter numbers separated by a space: 5 10 2 ..."
+            placeholder="5 10 12 13..."
             id="array-input"
+            class="input"
           />
-          <button class="create-btn">Create</button>
+          <button class="btn create-btn">Create</button>
         </div>
         <div class="input-container">
           <input
@@ -25,7 +26,9 @@
             placeholder="Number of elements"
             id="random-input"
             maxlength="4"
+            class="input"
           />
+
           <button class="btn random-btn">Create Random</button>
         </div>
         <div class="input-container">
@@ -34,16 +37,29 @@
             placeholder="Insert number"
             id="insert-input"
             maxlength="4"
+            class="input"
           />
           <button class="btn insert-btn">Insert</button>
         </div>
         <div class="input-container">
-          <input type="text" placeholder="Delete number" id="delete-input" />
+          <input
+            type="text"
+            placeholder="Delete number"
+            id="delete-input"
+            class="input"
+          />
           <button class="btn delete-btn">Delete</button>
         </div>
       </div>
       <div class="buttons">
-        <button class="btn balance-btn">balance</button>
+        <button class="btn clear-btn">Clear</button>
+        <button class="btn balance-btn">Balance</button>
+        <button class="btn level-order-btn" data-type="level">
+          Level Order
+        </button>
+        <button class="btn inorder-btn" data-type="in">Inorder</button>
+        <button class="btn preorder-btn" data-type="pre">Preorder</button>
+        <button class="btn postorder-btn" data-type="post">Postorder</button>
       </div>
     </div>
   </body>
