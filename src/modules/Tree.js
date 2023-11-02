@@ -153,7 +153,7 @@ class Tree {
       return node;
     }
 
-    this.recordStack.push(node);
+    this.recordStack.push(node.data);
     if (data < node.data) {
       node.left = this.#insertNode(data, node.left);
     } else if (data > node.data) {
@@ -197,7 +197,7 @@ class Tree {
       return node;
     }
 
-    this.recordStack.push(node);
+    this.recordStack.push(node.data);
 
     if (data < node.data) {
       node.left = this.#deleteNode(data, node.left);
