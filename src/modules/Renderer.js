@@ -151,11 +151,18 @@ class Renderer {
       Settings.constants.OFFSET_Y
     );
 
+    // Height of the tree
+    this.ctx.fillText(
+      "Height: " + state.height,
+      Settings.constants.STAT_X,
+      Settings.constants.OFFSET_Y + 20
+    );
+
     // Tree balance status
     this.ctx.fillText(
       "Balanced: " + state.balanced,
       Settings.constants.STAT_X,
-      Settings.constants.OFFSET_Y + 20
+      Settings.constants.OFFSET_Y + 40
     );
 
     if (App.isAnimating()) {

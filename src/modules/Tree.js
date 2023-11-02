@@ -129,6 +129,7 @@ class Tree {
     this.state.positions = this.calculateNodesAndEdges();
     this.state.rootPosition = { x: this.root.x, y: this.root.y };
     this.state.balanced = this.balanced();
+    this.state.height = this.height();
     this.state.length = this.length;
   }
 
