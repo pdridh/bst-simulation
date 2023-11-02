@@ -7,7 +7,6 @@ class Node {
     //for drwaing
     this.x = 0;
     this.y = 0;
-    this.highlighted = false;
   }
 }
 

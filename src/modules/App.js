@@ -47,7 +47,7 @@ const App = (() => {
     renderer.render(currentTreeState);
   }
 
-  function animation() {
+  function animation(deleted) {
     return new Promise((resolve, reject) => {
       animatorInterval = setInterval(() => {
         if (tree.recordStack.length === 0 || isObjectEmpty(lastTreeState)) {
@@ -55,12 +55,17 @@ const App = (() => {
           return;
         }
 
-        const nodeInUpdated = tree.recordStack.shift();
+        const data = tree.recordStack.shift();
 
         const nodeInLast = lastTreeState.positions.nodes.find(
-          (node) => node.data === nodeInUpdated.data
+          (node) => node.data === data
         );
         nodeInLast.highlighted = true;
+
+        if (nodeInLast.data === deleted) {
+          nodeInLast.highlighted = false;
+          nodeInLast.deleted = true;
+        }
 
         render();
       }, 500);
@@ -71,10 +76,10 @@ const App = (() => {
     lastTreeState = Object.assign({}, tree.state);
   }
 
-  async function beginAnimation() {
+  async function beginAnimation(deleted) {
     animating = true;
     currentTreeState = lastTreeState;
-    await animation();
+    await animation(deleted);
     clearInterval(animatorInterval);
     currentTreeState = tree.state;
     render();
@@ -106,7 +111,7 @@ const App = (() => {
     saveTreeState();
     tree.delete(num);
 
-    beginAnimation();
+    beginAnimation(num);
   }
 
   // Builds a new tree using the given data and updates the screen

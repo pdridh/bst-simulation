@@ -69,8 +69,13 @@ class Renderer {
     // Draw circle
     let color;
     if (node.highlighted) {
+      color = "blue";
+    }
+
+    if (node.deleted) {
       color = "red";
     }
+
     this.ctx.fillStyle = color || Settings.constants.NODE_COLOR;
     this.ctx.beginPath();
     this.ctx.arc(
