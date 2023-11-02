@@ -158,7 +158,7 @@ class Renderer {
     );
   }
 
-  render(state) {
+  render(state, targetPos) {
     if (isObjectEmpty(state)) {
       // Clear if anything is drawn
       this.clearCanvas();
@@ -171,6 +171,14 @@ class Renderer {
 
     this.clearCanvas();
     if (this.camera.on) {
+      if (targetPos) {
+        // OFFSET
+        targetPos.x =
+          targetPos.x + this.canvas.width / 2 - state.rootPosition.x;
+        targetPos.y = targetPos.y + Settings.constants.OFFSET_Y;
+        this.camera.targetX = targetPos.x;
+        this.camera.targetY = targetPos.y;
+      }
       this.camera.update();
       this.camera.move(this.ctx);
       this.renderTree(state);

@@ -41,10 +41,10 @@ const App = (() => {
     requestAnimationFrame(start);
   }
 
-  function render() {
+  function render(targetPos) {
     renderer.updated = true;
     renderer.updateWorldBounds(currentTreeState);
-    renderer.render(currentTreeState);
+    renderer.render(currentTreeState, targetPos);
   }
 
   function animation(deleted) {
@@ -67,7 +67,7 @@ const App = (() => {
           nodeInLast.deleted = true;
         }
 
-        render();
+        render({ x: nodeInLast.x, y: nodeInLast.y });
       }, 500);
     });
   }
