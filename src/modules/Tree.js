@@ -180,6 +180,10 @@ class Tree {
   // Returns the found node with the given data
   // Returns null if node with the given data is not found
   #findNode(data, node) {
+    if (node) {
+      this.recordStack.push(node.data);
+    }
+
     if (node === null || data === node.data) {
       return node;
     }
@@ -187,11 +191,13 @@ class Tree {
     if (data < node.data) {
       return this.#findNode(data, node.left);
     }
+
     return this.#findNode(data, node.right);
   }
 
   // Wrapper for recursive find
   find(data) {
+    this.updateTreeSettings();
     return this.#findNode(data, this.root);
   }
 

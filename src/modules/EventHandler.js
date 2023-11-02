@@ -15,6 +15,9 @@ const EventHandler = (() => {
   const insertBtn = document.querySelector(".insert-btn");
   const insertInput = document.querySelector("#insert-input");
 
+  const findBtn = document.querySelector(".find-btn");
+  const findInput = document.querySelector("#find-input");
+
   const deleteBtn = document.querySelector(".delete-btn");
   const deleteInput = document.querySelector("#delete-input");
 
@@ -75,6 +78,23 @@ const EventHandler = (() => {
 
     insertInput.value = "";
     App.insertNumber(number);
+  }
+
+  function handleFindBtn(e) {
+    if (findInput.value === "") {
+      alert("Please enter an element to insert");
+      return;
+    }
+
+    const number = Number(findInput.value);
+
+    if (number === NaN) {
+      alert("Enter a valid number");
+      return;
+    }
+
+    findInput.value = "";
+    App.findNumber(number);
   }
 
   function handleDeleteBtn(e) {
@@ -154,6 +174,7 @@ const EventHandler = (() => {
     createBtn.addEventListener("click", handleCreateBtn);
     randomBtn.addEventListener("click", handleRandomBtn);
     insertBtn.addEventListener("click", handleInsertBtn);
+    findBtn.addEventListener("click", handleFindBtn);
     deleteBtn.addEventListener("click", handleDeleteBtn);
 
     // Setting buttons

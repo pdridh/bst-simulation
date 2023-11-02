@@ -45,10 +45,14 @@ const App = (() => {
     }
   }
 
-  function render(targetPos) {
+  function render(params = {}) {
     renderer.updated = true;
     renderer.updateWorldBounds(currentTreeState);
-    renderer.render(currentTreeState, targetPos);
+    renderer.render({
+      state: currentTreeState,
+      targetPos: params.targetPos,
+      node: params.node,
+    });
   }
 
   function animation(deleted) {
@@ -72,7 +76,7 @@ const App = (() => {
           nodeInLast.deleted = true;
         }
 
-        render({ x: nodeInLast.x, y: nodeInLast.y });
+        render({ targetPos: { x: nodeInLast.x, y: nodeInLast.y } });
       }, 500);
     });
   }
@@ -113,11 +117,33 @@ const App = (() => {
     beginAnimation();
   }
 
+  // Find the number in the tree if exists and animate
+  async function findNumber(num) {
+    saveTreeState();
+
+    const node = tree.find(num);
+    if (node === null) {
+      //Couldnt find the number
+      alert("That number does not exist in the tree!");
+      return;
+    }
+
+    const paramNode = {};
+    paramNode.data = node.data;
+    paramNode.height = tree.height(node);
+    paramNode.depth = tree.depth(node);
+
+    await beginAnimation();
+
+    render({ node: paramNode });
+  }
+
   // Deletes a number in the tree and updates the screen
   function deleteNumber(num) {
     if (tree.find(num) === null) {
       //Couldnt find the number
       alert("That number does not exist in the tree!");
+      tree.clearRecords();
       return;
     }
 
@@ -199,6 +225,7 @@ const App = (() => {
     isAnimating,
     skipAnimation,
     insertNumber,
+    findNumber,
     deleteNumber,
     createRandom,
     clear,

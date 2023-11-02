@@ -139,33 +139,54 @@ class Renderer {
     });
   }
 
-  renderStats(state) {
+  renderStats(params) {
     this.ctx.font = Settings.constants.STAT_FONT;
     this.ctx.fillStyle = Settings.constants.STAT_COLOR;
     this.ctx.textAlign = "left";
 
     // N elements
     this.ctx.fillText(
-      "Number of elements: " + state.length,
+      "Number of elements: " + params.state.length,
       Settings.constants.STAT_X,
       Settings.constants.OFFSET_Y
     );
 
     // Height of the tree
     this.ctx.fillText(
-      "Height: " + state.height,
+      "Height: " + params.state.height,
       Settings.constants.STAT_X,
       Settings.constants.OFFSET_Y + 20
     );
 
     // Tree balance status
     this.ctx.fillText(
-      "Balanced: " + state.balanced,
+      "Balanced: " + params.state.balanced,
       Settings.constants.STAT_X,
       Settings.constants.OFFSET_Y + 40
     );
 
+    if (params.node) {
+      this.ctx.fillStyle = "rgb(0,255,0)";
+      this.ctx.fillText(
+        "Found Node: " + params.node.data,
+        Settings.constants.STAT_X,
+        Settings.constants.OFFSET_Y + 60
+      );
+
+      this.ctx.fillText(
+        "Node Height: " + params.node.height,
+        Settings.constants.STAT_X,
+        Settings.constants.OFFSET_Y + 80
+      );
+      this.ctx.fillText(
+        "Node Depth: " + params.node.depth,
+        Settings.constants.STAT_X,
+        Settings.constants.OFFSET_Y + 100
+      );
+    }
+
     if (App.isAnimating()) {
+      this.ctx.fillStyle = Settings.constants.STAT_COLOR;
       this.ctx.textAlign = "center";
       this.ctx.fillText(
         "Click anywhere in the canvas to skip the animation",
@@ -179,8 +200,8 @@ class Renderer {
     this.camera.center();
   }
 
-  render(state, targetPos) {
-    if (isObjectEmpty(state)) {
+  render(params) {
+    if (isObjectEmpty(params.state)) {
       // Clear if anything is drawn
       this.clearCanvas();
       return;
@@ -193,26 +214,28 @@ class Renderer {
     this.clearCanvas();
     if (this.camera.on) {
       if (
-        targetPos !== undefined &&
-        targetPos.x !== undefined &&
-        targetPos.y !== undefined
+        params.targetPos !== undefined &&
+        params.targetPos.x !== undefined &&
+        params.targetPos.y !== undefined
       ) {
         // OFFSET
-        targetPos.x =
-          targetPos.x + this.canvas.width / 2 - state.rootPosition.x;
-        targetPos.y = targetPos.y + Settings.constants.OFFSET_Y;
-        this.camera.targetX = targetPos.x;
-        this.camera.targetY = targetPos.y;
+        params.targetPos.x =
+          params.targetPos.x +
+          this.canvas.width / 2 -
+          params.state.rootPosition.x;
+        params.targetPos.y = params.targetPos.y + Settings.constants.OFFSET_Y;
+        this.camera.targetX = params.targetPos.x;
+        this.camera.targetY = params.targetPos.y;
       }
       this.camera.update();
       this.camera.move(this.ctx);
-      this.renderTree(state);
+      this.renderTree(params.state);
       this.camera.reset(this.ctx);
     } else {
-      this.renderTree(state);
+      this.renderTree(params.state);
     }
     this.updated = false;
-    this.renderStats(state);
+    this.renderStats(params);
   }
 }
 
