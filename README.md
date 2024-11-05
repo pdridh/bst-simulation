@@ -3,7 +3,7 @@
 <br />
 
 <h3 align="center">
-  <a href="https://imaginepog.github.io/bst-simulation/">BST Sim</a>
+  <a href="https://pdridh.github.io/bst-simulation/">BST Sim</a>
 </h3>
   <p align="center">
     A binary search tree implementation and simulation in JS
